@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+ 
+    
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>AarogyamScan AI: Your Partner in Health</h1>
+            <p class="tagline">Empowering you with AI-powered diagnostic insights from medical scans.</p>
+            <p>Our platform provides fast, accurate, and secure analysis of medical images to assist in early disease
+                detection and treatment planning.</p>
+            <!-- Updated URL endpoint -->
+            <a href="{{ url_for('xray_upload_route') }}" class="btn-primary">Upload Your Scan Now</a>
+        </div>
+        <div class="hero-image">
+                      <img src="{{ url_for('static', filename='img/image.jpg') }}" alt="Hader Image">
+     </div>
+    </section>
+    
+    <section class="our-mission full-bleed">
+        <div class="mission-content wrap">
+            <h2> AI in Medical Radiology</h2>
+            <p>Our mission is to integrate advanced artificial intelligence into diagnostic workflows.</p>  
+            <button class="btn-primary" onclick="location.href='about.php'">Learn More</button>
+        </div>
+        <div class="brain-image">
+            <img src="{{ url_for('static', filename='img/images.jpeg') }}" alt="Brain Image">
+        </div>
+    </section>
+</main>
+{% endblock %}

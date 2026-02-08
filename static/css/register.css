@@ -1,0 +1,108 @@
+/* register.css */
+
+/* Main container for the registration page */
+.register-container {
+    max-width:720px;
+    margin:auto;
+    padding: 50px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Heading style */
+.register-container h2 {
+    color: #c4c6c9; 
+    font-size: 2.2em;
+    margin-bottom: 25px;
+    font-family: 'Playfair Display', serif;
+    text-align: center;
+    padding-bottom: 10px;
+    
+    text-shadow: 
+        1px 1px 0 #edf2f7,
+        2px 2px 0 #a0aec0,
+        3px 3px 0 #718096,
+        4px 4px 0 #4a5568,
+        5px 5px 0 #2d3748;
+
+    border-bottom: none;
+    
+    animation: textGlowPulse 3s infinite ease-in-out;
+}
+
+/* Form styling */
+.register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Label styling */
+.register-form label {
+    text-align: left;
+    font-weight: bold;
+    color: #555;
+    margin-top: 5px;
+}
+
+/* Input field styling */
+.register-form input[type="text"],
+.register-form input[type="email"],
+.register-form input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: border-color 0.3s;
+}
+
+.register-form input[type="text"]:focus,
+.register-form input[type="email"]:focus,
+.register-form input[type="password"]:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Button styling */
+.register-form .btn-main {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.register-form .btn-main:hover {
+    background-color: #218838;
+}
+
+/* Link styling */
+.register-container p {
+    margin-top: 20px;
+    color: #666;
+}
+
+.register-container p a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.register-container p a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 500px) {
+    .register-container {
+        margin: 20px;
+        padding: 20px;
+    }
+}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/history.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="history-container">
+    <h2>Scan History</h2>
+
+    {% if history %}
+        <div class="history-grid">
+            {% for scan in history %}
+                <div class="history-item">
+                   {% if scan['user_name'] and scan['filename'] %}
+    <img src="{{ url_for('static', filename='reports/' + scan['user_name'] + '/' + scan['filename']) }}" 
+         alt="Scan uploaded on {{ scan['upload_date']|e }}" 
+         class="history-img">
+{% else %}
+    <p>Error: Missing file information</p>
+{% endif %}
+
+
+                    <div class="scan-details">
+                        <p><strong>Date:</strong> {{ scan['upload_date']|e }}</p>
+                        <p><strong>AI Result:</strong> 
+                            <span class="result-{{ scan['ai_result']|lower|replace(' ', '-')|replace('(', '')|replace(')', '')|replace('%', '')|e }}">
+                                {{ scan['ai_result']|e }}
+                            </span>
+                        </p>
+                        <a href="{{ url_for('delete_history', record_id=scan['id']) }}" 
+                           class="btn-delete" 
+                           onclick="return confirm('Are you sure you want to delete this record?');">
+                           Delete
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="no-history-message">
+            You have not uploaded any scans yet. 
+            Please go to  <br>
+            <a href="{{ url_for('xray_upload_route') }}">X-Ray Upload</a>  ,  <br>
+            <a href="{{ url_for('ctscan_upload') }}">CT Scan Upload</a>  <br> 
+            , or <a href="{{ url_for('mri_upload') }}">MRI Upload</a>  <br>
+            to get started.
+        </p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+{% endblock %}
+{% block content %}
+<div class="about-container">
+    <div class="about-header">
+        <h1>Aarogyam ScanAI</h1>
+        <p>AI-Based Medical Imaging Analysis System</p>
+    </div>
+
+    <div class="section-box mission-section">
+        <h2>🌟 Our Mission: Care with AI & Compassion</h2>
+        <p>
+            At <strong>Aarogyam ScanAI</strong>, we believe healthcare should be accessible to everyone, everywhere. Our mission is to bridge the diagnostic gap, especially in rural areas, by combining the warmth of <strong>"Aarogyam"</strong> (good health in Sanskrit) with the precision of <strong>AI</strong>. We are dedicated to making medical diagnostics smarter, faster, and more widely available.
+        </p>
+        <p>
+            Our system provides <strong>AI-powered healthcare support</strong> that assists patients and doctors alike, with reports available in multiple languages for clear, easy-to-understand insights.
+        </p>
+    </div>
+
+    <div class="section-box what-we-do-section">
+        <h2>🔹 What We Do: Instant Analysis, Actionable Reports</h2>
+        <div class="feature-list">
+            <p><strong>Fast Diagnosis:</strong> Get results in less than 5 seconds per scan.</p>
+            <p><strong>High Accuracy:</strong> Our models achieve over 90% accuracy in detecting common diseases.</p>
+            <p><strong>Visual Insights:</strong> We provide heatmaps to highlight affected regions.</p>
+            <p><strong>User-Friendly Reports:</strong> Receive a downloadable, structured report with diagnostic suggestions.</p>
+        </div>
+    </div>
+    
+    <div class="section-box solutions-section">
+        <h2>🩺 Our Solutions: Diseases We Detect</h2>
+        <div class="solutions-grid">
+            <div class="solution-card">
+                <h3>🫁 Lung Diseases</h3>
+                <p>Upload your chest X-ray to detect Pneumonia, Tuberculosis (TB), Pneumothorax, Cardiomegaly, and early signs of lung cancer.</p>
+            </div>
+            <div class="solution-card">
+                <h3>🧠 Brain Conditions</h3>
+                <p>Upload your brain CT or MRI scan for detection of Brain Hemorrhage, Stroke, Brain Atrophy, and Tumors.</p>
+            </div>
+            <div class="solution-card">
+                <h3>🦴 Bone & Spine Issues</h3>
+                <p>Upload your X-ray or MRI images to check for minor and major fractures, spinal cord injuries, slipped discs, and joint injuries.</p>
+            </div>
+            <div class="solution-card">
+                <h3>🩺 General Health Reports</h3>
+                <p>Upload your blood test reports or medical prescriptions for medicine recommendations, diet suggestions, and risk analysis.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-box team-section">
+        <h2>👥 Meet the Innovators: Code X Elite</h2>
+        <p class="team-intro">
+            We are a team of passionate third-year Diploma students from <strong>[Your College Name]</strong>, Computer Science Branch, dedicated to building impactful <strong>AI-powered healthcare solutions</strong>.
+        </p>
+        <div class="team-grid">
+            <div class="team-member">
+                <h3>Prince Kumar</h3>
+                <p><strong>Front-end Developer & UI/UX Designer</strong></p>
+                <p>Creates interactive and responsive website designs for a seamless user experience.</p>
+            </div>
+            <div class="team-member">
+                <h3>Gautam Kumar</h3>
+                <p><strong>Machine Learning Specialist</strong></p>
+                <p>Develops AI models for image and report analysis, improving diagnostic accuracy.</p>
+            </div>
+            <div class="team-member">
+                <h3>Ankit Kumar</h3>
+                <p><strong>Database & Backend Manager</strong></p>
+                <p>Handles secure data storage, APIs, and backend operations for smooth functioning.</p>
+            </div>
+            <div class="team-member">
+                <h3>Rahul Kumar</h3>
+                <p><strong>Full-stack Developer</strong></p>
+                <p>Integrates AI models with the web platform, manages deployment and performance optimization.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-box thank-you-section">
+        <p>Thank you for your support.</p>
+        <p>
+            We believe that by blending advanced technology with a compassionate approach, we can make a real difference in healthcare.
+        </p>
+        
+    </div>
+</div>
+
+{% endblock %}

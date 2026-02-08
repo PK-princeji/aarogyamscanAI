@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/solution.css') }}">
+{% endblock %}
+
+{% block content %}
+<main>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, msg in messages %}
+        <div class="flash {{ category }}">{{ msg }}</div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <section class="solution-section">
+        <div class="solution-content">
+            <h1>X-Ray Analysis</h1>
+            <p>Our advanced X-Ray Analysis solution leverages AI to provide precise diagnostic insights, helping healthcare professionals detect abnormalities with ease. Experience faster and more accurate readings for better patient outcomes.</p>
+            <ul class="features-list">
+                <li>AI-driven detection of fractures and lung conditions.</li>
+                <li>High-resolution image processing for detailed analysis.</li>
+                <li>Secure and confidential scan evaluation.</li>
+            </ul>
+            <a href="{{ url_for('xray_upload_route') }}" class="btn-primary">Upload X-Ray Now</a>
+        </div>
+        <div class="solution-image">
+            <img src="{{ url_for('static', filename='img/image.jpg') }}" alt="X-Ray Analysis Illustration">
+        </div>
+    </section>
+</main>
+{% endblock %}

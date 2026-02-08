@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aarogyam_ScanAI Network</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+
+
+    {% block head %}{% endblock %}
+    <!-- <script>
+        var isLoggedIn = {{ 'true' if session.get('logged_in') else 'false' }};
+    </script> -->
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</head>
+<body>
+    <!-- ===== NAVBAR ===== -->
+    <header class="navbar">
+        <button class="menu-button" id="menu-button">☰</button>
+        <img src="{{ url_for('static', filename='img/logo.svg.png') }}" alt="Aarogyam_ScanAI Logo" class="logo"> 
+
+        <div class="nav-links-and-buttons">
+            <a href="{{ url_for('home') }}"><i class="fas fa-home"></i> Home</a>
+
+            <!-- About Dropdown -->
+            <div class="dropdown">
+                <a href="#" class="dropbtn"><i class="fas fa-info-circle"></i> About ▾</a>
+                <div class="dropdown-content">
+                    <a href="{{ url_for('about_project') }}"><i class="fas fa-project-diagram"></i> About Project</a>
+                    <a href="{{ url_for('about_team') }}"><i class="fas fa-users"></i> About Team</a>
+                </div>
+            </div>
+
+            <a href="{{ url_for('plan') }}"><i class="fas fa-clipboard-list"></i> Plan</a>
+
+            <!-- Upload Dropdown -->
+            <div class="dropdown">
+                <a href="#" class="dropbtn"><i class="fas fa-upload"></i> Upload ▾</a>
+                <div class="dropdown-content">
+                    <a href="{{ url_for('xray_upload_route') }}"><i class="fas fa-x-ray"></i> Upload X-Ray </a>
+                    <a href="{{ url_for('ctscan_upload') }}"><i class="fas fa-procedures"></i> Upload CT</a>
+                    <a href="{{ url_for('mri_upload') }}"><i class="fas fa-brain"></i>Upload MRI</a>
+                </div>
+            </div>
+
+            <!-- Solutions Dropdown -->
+            <div class="dropdown">
+                <a href="#" class="dropbtn"><i class="fas fa-lightbulb"></i> Solutions ▾</a>
+                <div class="dropdown-content">
+                    <a href="{{ url_for('xray_solution') }}"><i class="fas fa-x-ray"></i> X-Ray Analysis</a>
+                    <a href="{{ url_for('ctscan_solution') }}"><i class="fas fa-procedures"></i> CT Scan Analysis</a>
+                    <a href="{{ url_for('mri_solution') }}"><i class="fas fa-brain"></i> MRI Analysis</a>
+                </div>
+            </div>
+
+            <a href="{{ url_for('history') }}"><i class="fas fa-history"></i> History</a>
+        </div>
+
+        <!-- Auth Buttons -->
+        {% if session.get('logged_in') %}
+        <div class="nav-right">
+            <a href="{{ url_for('logout') }}" class="btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+        {% else %}
+        <div class="nav-right">
+            <a href="{{ url_for('login') }}" class="btn"><i class="fas fa-sign-in-alt"></i> Login</a>
+        </div>
+        {% endif %}
+    </header>
+
+    <!-- ===== OFF-CANVAS MENU (Mobile) ===== -->
+    <nav class="off-canvas-menu" id="nav-menu">
+    <a href="{{ url_for('home') }}"><i class="fas fa-home"></i> Home</a>
+    <a href="{{ url_for('about_project') }}"><i class="fas fa-project-diagram"></i> About Project</a>
+    <a href="{{ url_for('about_team') }}"><i class="fas fa-users"></i> About Team</a>
+    <a href="{{ url_for('plan') }}"><i class="fas fa-clipboard-list"></i> Plan</a>
+    
+    <a href="{{ url_for('xray_upload_route') }}"><i class="fas fa-x-ray"></i> Upload X-Ray </a>
+    <a href="{{ url_for('ctscan_upload') }}"><i class="fas fa-procedures"></i> Upload CT Scan</a>
+    <a href="{{ url_for('mri_upload') }}"><i class="fas fa-brain"></i> Upload MRI </a>
+
+    <a href="{{ url_for('xray_solution') }}"><i class="fas fa-x-ray"></i> X-Ray Analysis</a>
+    <a href="{{ url_for('ctscan_solution') }}"><i class="fas fa-procedures"></i> CT Scan Analysis</a>
+    <a href="{{ url_for('mri_solution') }}"><i class="fas fa-brain"></i> MRI Analysis</a>
+
+    <a href="{{ url_for('history') }}"><i class="fas fa-history"></i> History</a>
+
+    {% if session.get('logged_in') %}
+        <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    {% else %}
+        <a href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt"></i> Login</a>
+    {% endif %}
+</nav>
+
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+         {% if messages %}
+           <script>
+             document.addEventListener("DOMContentLoaded", function () {
+               {% for category, message in messages %}
+                 Swal.fire({
+                   icon: "{{ 'success' if category == 'success' else 'error' }}",
+                   title: {{ message|tojson }},
+                   showConfirmButton: false,
+                   timer: 3000
+                 });
+               {% endfor %}
+             });
+           </script>
+         {% endif %}
+       {% endwith %}
+
+
+ 
+        {% block content %}
+        <main class="home-main">
+             <section class="hero-section">
+                <div class="hero-content">
+                    <h1>AarogyamScan AI: Your Partner in Health</h1>
+                    <p class="tagline">Empowering you with AI-powered diagnostic insights from medical scans.</p>
+                    <p>Our platform provides fast, accurate, and secure analysis of medical images to assist in early disease detection and treatment planning.</p>
+                    <a href="{{ url_for('xray_upload') }}" class="btn-primary">Upload Your Scan Now</a>
+                </div>
+                <div class="hero-image">
+                    <img src="https://images.unsplash.com/photo-1576091160550-2173fdabe37f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="AI-powered medical analysis illustration" loading="lazy">
+                </div>
+            </section>
+        </main>
+        {% endblock %}
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section about">
+                <h3>Aarogyam_ScanAI</h3>
+                <p>AI-based Medical Imaging Analysis</p>
+                <p class="copyright">© 2025 Aarogyam_ScanAI</p>
+            </div>
+            <div class="footer-section contact">
+                <h3>Contact Us</h3>
+                <p>Email: aarogyam_scanAi@gmail.com</p>
+                <p>Address: Government Polytechnic, Near Airport, Post-Sabour, Bhagalpur, Bihar 813210, India</p>
+            </div>
+            <div class="footer-section links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Terms & Conditions</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section social">
+               <h3>Follow Us</h3><br> 
+               <ul>
+                 <li class="social-icon"><a href="https://www.facebook.com/profile.php?id=61574672797912" target="_blank" aria-label="Facebook"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook"></a></li> 
+                 <li class="social-icon"><a href="https://www.instagram.com/princeji3242/?hl=en" target="_blank" aria-label="Instagram"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram"></a></li>
+                 <li class="social-icon"><a href="http://www.youtube.com/@PrinceKumar-ed9ok" target="_blank" aria-label="YouTube"><img src="https://cdn-icons-png.flaticon.com/512/3938/3938026.png" alt="YouTube"></a></li>
+                 <li class="social-icon"><a href="https://www.linkedin.com/in/prince-kumar-685476343/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app&fbclid=PAZXh0bgNhZW0CMTEAAad-pxTW1FDc6P6eqXweYVN7RKn4UZTPNVHMMH18Ykh1C5lLAojsjYkpAOdzPA_aem_kroCKZknnHro_GZ_zrpHzQ" target="_blank" aria-label="LinkedIn"><img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn"></a></li> 
+                 <li class="social-icon"><a href="https://x.com/princeji3242" target="_blank" aria-label="Twitter"><img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter"></a></li> 
+                </ul>
+             
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

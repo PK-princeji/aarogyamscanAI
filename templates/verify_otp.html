@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="register-container">
+    <h2>Verify Your Account</h2>
+    <form method="POST">
+        <label for="otp">Enter OTP sent to your email/phone:</label>
+        <input type="text" id="otp" name="otp" required>
+        <button type="submit" class="btn-main">Verify OTP</button>
+    </form>
+</div>
+{% endblock %}

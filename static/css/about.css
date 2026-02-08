@@ -1,0 +1,127 @@
+/* about.css */
+.container {
+    background-image: url('/static/img/BG.jpg');
+     background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    flex: 1;
+    padding:auto;
+    min-width: 100%;
+    margin: 0 auto;
+}
+.about-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: auto;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.about-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.about-header h1 {
+    color: #004080;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.about-header p {
+    color: #666;
+    font-size: 1.2em;
+}
+
+.section-box {
+    margin-bottom: 40px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.section-box h2 {
+    color: #004080;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.mission-section p strong {
+    color: #007bff;
+}
+
+.feature-list p {
+    background-color: #e9f5ff;
+    padding: 10px 15px;
+    border-left: 3px solid #007bff;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+/* Flexbox ke saath responsive grid */
+.solutions-grid, .team-grid {
+    display: flex;
+    flex-wrap: wrap; /* Jab jagah kam ho to items neeche aa jayenge */
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.solution-card, .team-member {
+    flex: 1 1 45%; /* Default: Laptop/desktop par lagbhag do columns */
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.solution-card:hover, .team-member:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.solution-card h3, .team-member h3 {
+    color: #004080;
+    margin-bottom: 10px;
+}
+
+.team-member p {
+    font-size: 0.95em;
+    color: #555;
+}
+
+.team-intro {
+    text-align: center;
+    font-style: italic;
+    color: #777;
+    margin-bottom: 30px;
+}
+
+.thank-you-section {
+    text-align: center;
+    border-top: 2px solid #e0e0e0;
+    padding-top: 20px;
+    font-style: italic;
+}
+
+.copyright {
+    margin-top: 10px;
+    font-size: 0.8em;
+    color: #999;
+}
+
+/* Media Query for mobile (ek column) */
+@media (max-width: 768px) {
+    .about-container {
+        margin: 20px;
+    }
+    
+    .solution-card, .team-member {
+        flex: 1 1 100%; /* Mobile par poori width lega, ek column banega */
+    }
+}

@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section class="content">
+    <h2>Upload Medical Scan</h2>
+    
+    <div class="upload-buttons">
+        <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data" class="upload-form">
+            <h3>📄 Upload Report</h3>
+            <p>PDF, JPEG, PNG</p>
+            <input type="hidden" name="scan_type" value="report">
+            <label for="file_report">Choose File:</label>
+            <input type="file" id="file_report" name="file" accept=".pdf, .jpg, .jpeg, .png" required>
+            <button type="submit" class="btn-main">Upload Report</button>
+        </form>
+
+        <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data" class="upload-form">
+            <h3>🩻 Upload CT Scan, X-ray, MRI</h3>
+            <p>DCM, PNG, JPG</p>
+            <input type="hidden" name="scan_type" value="ct_mri">
+            <label for="file_ct_mri">Choose File:</label>
+            <input type="file" id="file_ct_mri" name="file" accept=".dcm, .jpg, .jpeg, .png" required>
+            <button type="submit" class="btn-main">Upload Scan</button>
+        </form>
+
+        <form action="{{ url_for('upload') }}" method="POST" id="face-scan-form" class="upload-form">
+            <h3>😊 Face Scan (Live Camera)</h3>
+            <div class="camera-container">
+                <video id="webcam-video" width="320" height="240" autoplay></video>
+                <canvas id="canvas" width="320" height="240" style="display:none;"></canvas>
+            </div>
+            <button type="button" id="start-camera-btn" class="btn-main">Start Camera</button>
+            <button type="button" id="capture-btn" class="btn-main" disabled>Capture Photo</button>
+            
+            <div class="photo-preview">
+                <h4>Captured Photo:</h4>
+                <img id="photo-preview-img" src="" alt="Captured Face Scan" style="display:none; width: 100%; max-height: 200px; object-fit: contain;">
+                
+                <button type="button" id="delete-photo-btn" class="btn-delete" style="display:none;">Delete Photo</button>
+            </div>
+
+            <input type="hidden" name="scan_type" value="face_scan">
+            <input type="hidden" name="face_data" id="face-data-input">
+            
+            <button type="submit" class="btn-main" id="upload-face-btn" disabled>Upload Face Scan</button>
+        </form>
+    </div>
+</section>
+
+<script>
+    // Face Scan functionality ke liye JavaScript
+    const webcamVideo = document.getElementById('webcam-video');
+    const canvas = document.getElementById('canvas');
+    const startCameraBtn = document.getElementById('start-camera-btn');
+    const captureBtn = document.getElementById('capture-btn');
+    const uploadFaceBtn = document.getElementById('upload-face-btn');
+    const deletePhotoBtn = document.getElementById('delete-photo-btn'); // Naya button
+    const faceDataInput = document.getElementById('face-data-input');
+    const photoPreviewImg = document.getElementById('photo-preview-img');
+    const context = canvas.getContext('2d');
+    let stream = null;
+
+    startCameraBtn.addEventListener('click', async () => {
+        try {
+            stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            webcamVideo.srcObject = stream;
+            webcamVideo.style.display = 'block'; // Camera feed show kare
+            captureBtn.disabled = false;
+            startCameraBtn.disabled = true; // Start button ko disable kare
+        } catch (err) {
+            console.error("Error accessing camera: ", err);
+            alert("Camera access denied or not available. Please allow camera access.");
+        }
+    });
+
+    captureBtn.addEventListener('click', () => {
+        if (stream) {
+            context.drawImage(webcamVideo, 0, 0, canvas.width, canvas.height);
+            const imageData = canvas.toDataURL('image/png');
+            faceDataInput.value = imageData;
+            
+            photoPreviewImg.src = imageData;
+            photoPreviewImg.style.display = 'block';
+
+            uploadFaceBtn.disabled = false;
+            deletePhotoBtn.style.display = 'inline-block'; // Delete button dikhaye
+            captureBtn.disabled = true; // Capture button ko disable kare
+
+            // Camera stream ko band kar den
+            stream.getTracks().forEach(track => track.stop());
+            webcamVideo.srcObject = null;
+            webcamVideo.style.display = 'none'; // Camera feed hide kare
+        }
+    });
+
+    // Delete Photo button ki functionality
+    deletePhotoBtn.addEventListener('click', () => {
+        // Form fields aur preview ko reset karein
+        faceDataInput.value = '';
+        photoPreviewImg.src = '';
+        photoPreviewImg.style.display = 'none';
+
+        // Buttons ko unke original state mein layen
+        captureBtn.disabled = true;
+        uploadFaceBtn.disabled = true;
+        deletePhotoBtn.style.display = 'none';
+        startCameraBtn.disabled = false; // Start button ko fir se enable kare
+        
+        // Canvas ko clear karein
+        context.clearRect(0, 0, canvas.width, canvas.height);
+    });
+
+    document.getElementById('face-scan-form').addEventListener('submit', (event) => {
+        if (!faceDataInput.value) {
+            alert('Please capture a photo first!');
+            event.preventDefault();
+        }
+    });
+</script>
+
+<style>
+    .upload-buttons {
+        display:grid;
+        flex-direction: column;
+        gap: 20px;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+    
+    .upload-form {
+        border: 1px solid #ddd;
+        padding: 20px;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        text-align: center;
+    }
+    
+    .camera-container {
+        margin: 10px auto;
+        border: 2px solid #004080;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    
+    .btn-delete {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+    
+    .btn-delete:hover {
+        background-color: #c82333;
+    }
+
+    /* ... (Your responsive media queries for tablet and laptop) ... */
+    @media (min-width: 600px) {
+        .upload-buttons {
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .upload-form {
+            flex: 1 1 calc(50% - 20px);
+        }
+    }
+    @media (min-width: 992px) {
+        .upload-buttons {
+            justify-content: space-between;
+        }
+        .upload-form {
+            flex: 1 1 calc(33.333% - 20px);
+        }
+    }
+</style>
+
+{% endblock %}
