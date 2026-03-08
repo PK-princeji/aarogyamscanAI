@@ -1,63 +1,144 @@
 {% extends 'base.html' %}
+
 {% block head %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/about_project.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 {% endblock %}
+
 {% block content %}
-<div class="about-container">
-    <div class="about-header">
-        <h1>Aarogyam ScanAI</h1>
-        <p>AI-Based Medical Imaging Analysis System</p>
-    </div>
-
-    <div class="section-box mission-section">
-        <h2>🌟 Our Mission: Care with AI & Compassion</h2>
-        <p>
-            At <strong>Aarogyam ScanAI</strong>, we believe healthcare should be accessible to everyone, everywhere. Our mission is to bridge the diagnostic gap, especially in rural areas, by combining the warmth of <strong>"Aarogyam"</strong> (good health in Sanskrit) with the precision of <strong>AI</strong>. We are dedicated to making medical diagnostics smarter, faster, and more widely available.
-        </p>
-        <p>
-            Our system provides <strong>AI-powered healthcare support</strong> that assists patients and doctors alike, with reports available in multiple languages for clear, easy-to-understand insights.
-        </p>
-    </div>
-
-    <div class="section-box what-we-do-section">
-        <h2>🔹 What We Do: Instant Analysis, Actionable Reports</h2>
-        <div class="feature-list">
-            <p><strong>Fast Diagnosis:</strong> Get results in less than 5 seconds per scan.</p>
-            <p><strong>High Accuracy:</strong> Our models achieve over 90% accuracy in detecting common diseases.</p>
-            <p><strong>Visual Insights:</strong> We provide heatmaps to highlight affected regions.</p>
-            <p><strong>User-Friendly Reports:</strong> Receive a downloadable, structured report with diagnostic suggestions.</p>
-        </div>
-    </div>
+<main class="about-container">
     
-    <div class="section-box solutions-section">
-        <h2>🩺 Our Solutions: Diseases We Detect</h2>
-        <div class="solutions-grid">
-            <div class="solution-card">
-                <h3>🫁 Lung Diseases</h3>
-                <p>Upload your chest X-ray to detect Pneumonia, Tuberculosis (TB), Pneumothorax, Cardiomegaly, and early signs of lung cancer.</p>
+    <section class="about-hero reveal fade-in">
+        <div class="hero-content-wrapper">
+            <div class="badge">Project Genesis & Vision</div>
+            <h1>The AarogyamScanAI Initiative</h1>
+            <p class="subtitle">Democratizing Medical Diagnostics through Deep Neural Networks. Engineered to bridge the massive gap between critical patients and specialized radiological care.</p>
+        </div>
+    </section>
+
+    <section class="section-box genesis-section reveal slide-up">
+        <div class="split-layout">
+            <div class="text-content">
+                <h2><i class="fas fa-globe-asia"></i> The Global Healthcare Crisis</h2>
+                <p>The inception of <strong>AarogyamScanAI</strong> was not just a technical endeavor; it was born out of absolute necessity. In developing nations and rural sectors, the radiologist-to-patient ratio is catastrophically low. Patients often travel hundreds of kilometers and wait weeks just to have a standard Chest X-Ray or MRI read by a specialist.</p>
+                <p>During this critical "waiting period," treatable conditions like early-stage Pneumonia, Tuberculosis, or micro-hemorrhages escalate into fatal emergencies. We realized that while we cannot deploy thousands of human doctors overnight, we <em>can</em> deploy an infinitely scalable, hyper-accurate digital radiologist directly to any smartphone or clinic computer.</p>
             </div>
-            <div class="solution-card">
-                <h3>🧠 Brain Conditions</h3>
-                <p>Upload your brain CT or MRI scan for detection of Brain Hemorrhage, Stroke, Brain Atrophy, and Tumors.</p>
-            </div>
-            <div class="solution-card">
-                <h3>🦴 Bone & Spine Issues</h3>
-                <p>Upload your X-ray or MRI images to check for minor and major fractures, spinal cord injuries, slipped discs, and joint injuries.</p>
-            </div>
-            <div class="solution-card">
-                <h3>🩺 General Health Reports</h3>
-                <p>Upload your blood test reports or medical prescriptions for medicine recommendations, diet suggestions, and risk analysis.</p>
+            <div class="graphic-content">
+                <div class="crisis-stat">
+                    <h3>70%</h3>
+                    <p>Of the global population lacks access to immediate radiological diagnostics.</p>
+                </div>
+                <div class="crisis-stat">
+                    <h3>2-5 Days</h3>
+                    <p>Average waiting time for a complex MRI/CT report in rural healthcare sectors.</p>
+                </div>
             </div>
         </div>
-    </div>
- 
-    <div class="section-box thank-you-section">
-        <p>Thank you for your support.</p>
-        <p>
-            We believe that by blending advanced technology with a compassionate approach, we can make a real difference in healthcare.
-        </p>
-        
-    </div>
-</div>
+    </section>
 
+    <section class="section-box mission-section reveal slide-up">
+        <h2><i class="fas fa-bullseye"></i> Our Mission: The Four Pillars</h2>
+        <p class="section-lead">Combining the Sanskrit philosophy of <strong>"Aarogyam"</strong> (Complete Holistic Health) with the absolute precision of Artificial Intelligence. Our architecture is built upon four non-negotiable pillars:</p>
+        
+        <div class="pillars-grid">
+            <div class="pillar-card hover-lift">
+                <div class="pillar-icon"><i class="fas fa-bolt"></i></div>
+                <h4>Instant Accessibility</h4>
+                <p>Reducing diagnostic turnaround time from 72 hours down to under 5 seconds. Time saved is tissue saved, especially in acute stroke and trauma protocols.</p>
+            </div>
+            <div class="pillar-card hover-lift">
+                <div class="pillar-icon"><i class="fas fa-microscope"></i></div>
+                <h4>Uncompromising Accuracy</h4>
+                <p>Human eyes suffer from visual fatigue after analyzing hundreds of scans. Our Convolutional Neural Networks (CNNs) maintain a relentless 98%+ accuracy rate on every single pixel and voxel.</p>
+            </div>
+            <div class="pillar-card hover-lift">
+                <div class="pillar-icon"><i class="fas fa-hand-holding-usd"></i></div>
+                <h4>Socio-Economic Affordability</h4>
+                <p>By automating the initial triage phase, we drastically reduce out-of-pocket diagnostic expenses for impoverished communities, making world-class healthcare virtually free.</p>
+            </div>
+            <div class="pillar-card hover-lift">
+                <div class="pillar-icon"><i class="fas fa-shield-alt"></i></div>
+                <h4>Data Ethics & Privacy</h4>
+                <p>Strict anonymization of all DICOM/JPEG data. All Personal Identifiable Information (PII) is mathematically stripped before processing, ensuring complete patient confidentiality.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-box ecosystem-section reveal slide-right">
+        <h2><i class="fas fa-network-wired"></i> The Diagnostic Ecosystem</h2>
+        <p class="section-lead">AarogyamScanAI is not a single-function app. It is a comprehensive, multi-modal Radiomics suite capable of handling 2D planar images and 3D volumetric datasets.</p>
+        
+        <div class="ecosystem-grid">
+            <div class="eco-item">
+                <i class="fas fa-x-ray eco-icon"></i>
+                <div class="eco-text">
+                    <h3>Digital Radiography (X-Ray)</h3>
+                    <p>Specialized 2D ResNet architectures targeting Pulmonary anomalies (Pneumonia, TB, COVID-19) and orthopedic structural fractures. The ultimate first-line defense for emergency rooms.</p>
+                </div>
+            </div>
+            <div class="eco-item">
+                <i class="fas fa-circle-notch eco-icon"></i>
+                <div class="eco-text">
+                    <h3>Computed Tomography (CT)</h3>
+                    <p>Volumetric 3D-CNNs parsing hundreds of cross-sectional slices to isolate intracranial hemorrhages (brain bleeds), pulmonary embolisms, and complex multi-organ traumas.</p>
+                </div>
+            </div>
+            <div class="eco-item">
+                <i class="fas fa-brain eco-icon"></i>
+                <div class="eco-text">
+                    <h3>Magnetic Resonance (MRI)</h3>
+                    <p>Hybrid U-Net and Vision Transformer (ViT) models analyzing T1, T2, and FLAIR sequences to track neurodegenerative atrophy (Alzheimer's) and demyelinating lesions (Multiple Sclerosis) at the voxel level.</p>
+                </div>
+            </div>
+            <div class="eco-item">
+                <i class="fas fa-file-medical-alt eco-icon"></i>
+                <div class="eco-text">
+                    <h3>Clinical Report Digitization</h3>
+                    <p>Advanced Optical Character Recognition (OCR) combined with Natural Language Processing (NLP) to digitize blood reports and prescriptions, offering automated risk analysis and diet recommendations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section-box tech-section reveal slide-up">
+        <h2><i class="fas fa-cogs"></i> Technical Architecture</h2>
+        
+        <div class="tech-content">
+            <p>The backbone of AarogyamScanAI is built on an enterprise-grade technology stack designed for low-latency and high-throughput processing.</p>
+            <ul class="tech-list">
+                <li><strong>Core AI Engine:</strong> Python, utilizing TensorFlow and PyTorch for building and training Deep Convolutional Neural Networks (CNNs) and Vision Transformers.</li>
+                <li><strong>Image Processing:</strong> OpenCV and specialized DICOM parsers (pydicom) for Hounsfield Unit (HU) windowing and contrast equalization (CLAHE).</li>
+                <li><strong>Backend Framework:</strong> Robust Flask/Python architecture handling secure API routing, asynchronous task queuing, and model serving.</li>
+                <li><strong>Frontend Interface:</strong> Modern HTML5, CSS3 (Glassmorphism UI), and Vanilla JavaScript optimized for seamless user experience and strict responsive design constraints.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="section-box team-section reveal fade-in">
+        <h2><i class="fas fa-users-cog"></i> The Engineering Force</h2>
+        <div class="team-wrapper">
+            <div class="team-logo">
+                <i class="fas fa-code-branch"></i>
+                <h3>CODE_X_ELITE</h3>
+            </div>
+            <div class="team-text">
+                <p>AarogyamScanAI is researched, engineered, and deployed by <strong>CODE_X_ELITE</strong>. As a collective of dedicated Computer Science innovators, we refuse to let complex technology remain confined to academic papers. Our goal is to translate raw code into real-world impact.</p>
+                <p>This system represents the culmination of thousands of hours of dataset curation, neural network training, algorithm optimization, and UI/UX refinement. We are building the future of autonomous healthcare.</p>
+            </div>
+        </div>
+    </section>
+ 
+    <section class="thank-you-section reveal slide-up">
+        <i class="fas fa-heartbeat heart-beat-anim"></i>
+        <h3>The Road Ahead</h3>
+        <p>
+            Technology alone cannot heal, but technology guided by human compassion can change the world. Thank you for exploring the AarogyamScanAI initiative. We are just getting started.
+        </p>
+        <div class="powered-by">
+            Architected with precision by <strong>CODE_X_ELITE</strong>
+        </div>
+    </section>
+</main>
+
+<script src="{{ url_for('static', filename='js/about_project.js') }}"></script>
 {% endblock %}

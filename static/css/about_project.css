@@ -1,0 +1,112 @@
+/* CSS Variables for Premium Medical & Tech Theme */
+:root {
+    --primary-color: #0f172a;    /* Deep Slate/Navy */
+    --secondary-color: #2563eb;  /* Trust Medical Blue */
+    --accent-color: #059669;     /* Deep Medical Green */
+    --bg-color: #f8fafc;         /* Very Light Gray/Blue */
+    --text-main: #334155;
+    --text-light: #64748b;
+    --card-bg: #ffffff;
+    --shadow-soft: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
+    --shadow-hover: 0 20px 40px -5px rgba(37, 99, 235, 0.15);
+    --border-light: #e2e8f0;
+    --gradient-tech: linear-gradient(135deg, #1e3a8a, #2563eb);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background-color: var(--bg-color); color: var(--text-main); font-family: 'Inter', 'Segoe UI', sans-serif; line-height: 1.8; overflow-x: hidden;}
+
+.about-container { max-width: 1300px; margin: 0 auto; padding: 60px 20px; }
+
+/* 1. Hero Section */
+.about-hero { text-align: center; margin-bottom: 80px; padding: 80px 40px; background: var(--card-bg); border-radius: 40px; box-shadow: var(--shadow-soft); border: 1px solid var(--border-light); position: relative; overflow: hidden; }
+.about-hero::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(37,99,235,0.04) 0%, rgba(255,255,255,0) 70%); z-index: 0; }
+.hero-content-wrapper { position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; }
+.badge { display: inline-block; background: #eff6ff; color: var(--secondary-color); padding: 10px 24px; border-radius: 30px; font-weight: 800; font-size: 0.95rem; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 2px; border: 1px solid #bfdbfe; }
+.about-hero h1 { font-size: 4.2rem; color: var(--primary-color); font-weight: 900; margin-bottom: 20px; letter-spacing: -1.5px; line-height: 1.1; }
+.about-hero .subtitle { font-size: 1.4rem; color: var(--text-light); font-weight: 400; text-align: justify; text-align-last: center; }
+
+/* Common Section Styles */
+.section-box { background: var(--card-bg); border-radius: 30px; padding: 70px 60px; margin-bottom: 60px; box-shadow: var(--shadow-soft); border: 1px solid var(--border-light); position: relative; overflow: hidden;}
+.section-box h2 { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 30px; display: flex; align-items: center; gap: 15px; font-weight: 800; letter-spacing: -0.5px;}
+.section-box h2 i { color: var(--secondary-color); font-size: 2.2rem; }
+.section-lead { font-size: 1.25rem; color: var(--text-light); margin-bottom: 40px; text-align: justify; max-width: 1000px;}
+
+/* 2. Genesis Section (Split Layout) */
+.split-layout { display: flex; gap: 60px; align-items: center; flex-wrap: wrap; }
+.text-content { flex: 1.5; min-width: 300px; }
+.text-content p { font-size: 1.15rem; color: var(--text-light); margin-bottom: 20px; text-align: justify; }
+.graphic-content { flex: 1; display: flex; flex-direction: column; gap: 30px; }
+.crisis-stat { background: #f8fafc; padding: 40px; border-radius: 20px; border-left: 6px solid #ef4444; box-shadow: 0 4px 6px rgba(0,0,0,0.02); }
+.crisis-stat h3 { font-size: 4rem; color: #ef4444; line-height: 1; margin-bottom: 15px; font-weight: 900;}
+.crisis-stat p { color: var(--text-main); font-size: 1.1rem; font-weight: 500; }
+
+/* 3. Pillars Grid */
+.pillars-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
+.pillar-card { background: #f8fafc; padding: 40px 30px; border-radius: 20px; border: 1px solid var(--border-light); text-align: center; transition: all 0.4s ease; }
+.hover-lift:hover { transform: translateY(-15px); box-shadow: var(--shadow-hover); border-color: var(--secondary-color); background: white; }
+.pillar-icon { width: 80px; height: 80px; background: #eff6ff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; color: var(--secondary-color); margin: 0 auto 25px auto; transition: all 0.5s; }
+.hover-lift:hover .pillar-icon { background: var(--secondary-color); color: white; transform: rotateY(180deg); }
+.pillar-card h4 { font-size: 1.4rem; color: var(--primary-color); margin-bottom: 15px; font-weight: 800;}
+.pillar-card p { color: var(--text-light); font-size: 1.05rem; text-align: justify; text-align-last: center; }
+
+/* 4. Ecosystem Section */
+.ecosystem-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 40px; }
+.eco-item { display: flex; gap: 25px; padding: 35px; background: white; border-radius: 24px; border: 1px solid var(--border-light); box-shadow: var(--shadow-soft); transition: transform 0.3s; }
+.eco-item:hover { transform: translateX(10px); border-color: var(--secondary-color); }
+.eco-icon { font-size: 3rem; color: var(--secondary-color); margin-top: 5px; }
+.eco-text h3 { font-size: 1.5rem; color: var(--primary-color); margin-bottom: 12px; font-weight: 800;}
+.eco-text p { color: var(--text-light); font-size: 1.1rem; text-align: justify; }
+
+/* 5. Tech Stack Section */
+.tech-section { position: relative; }
+.tech-section::before { content: ''; position: absolute; left: 0; top: 0; width: 6px; height: 100%; background: var(--gradient-tech); }
+.tech-content p { font-size: 1.2rem; color: var(--text-light); margin-bottom: 25px; }
+.tech-list { list-style: none; padding-left: 0; }
+.tech-list li { position: relative; padding-left: 45px; margin-bottom: 25px; font-size: 1.15rem; color: var(--text-light); line-height: 1.7; text-align: justify;}
+.tech-list li strong { color: var(--primary-color); font-weight: 800; display: block; margin-bottom: 5px; font-size: 1.25rem;}
+.tech-list li::before { font-family: 'Font Awesome 5 Free'; font-weight: 900; content: '\f00c'; position: absolute; left: 0; top: 2px; color: var(--accent-color); font-size: 1.5rem; background: #ecfdf5; padding: 5px 8px; border-radius: 50%; }
+
+/* 6. The Team Section */
+.team-wrapper { display: flex; align-items: center; gap: 50px; background: var(--primary-color); padding: 50px; border-radius: 24px; color: white; flex-wrap: wrap;}
+.team-logo { flex: 1; text-align: center; min-width: 200px; }
+.team-logo i { font-size: 5rem; color: #60a5fa; margin-bottom: 20px; }
+.team-logo h3 { font-size: 2rem; letter-spacing: 2px; }
+.team-text { flex: 2; min-width: 300px; }
+.team-text p { font-size: 1.15rem; color: #cbd5e1; margin-bottom: 20px; text-align: justify; }
+.team-text strong { color: white; }
+
+/* 7. Footer / Vision Section */
+.thank-you-section { text-align: center; background: var(--gradient-tech); color: white; padding: 80px 40px; border-radius: 40px; box-shadow: 0 20px 50px rgba(30, 58, 138, 0.4); }
+.thank-you-section .fa-heartbeat { font-size: 4.5rem; color: #fca5a5; margin-bottom: 30px; }
+.heart-beat-anim { animation: heartbeat 1.5s infinite; }
+@keyframes heartbeat { 0% { transform: scale(1); } 15% { transform: scale(1.15); } 30% { transform: scale(1); } 45% { transform: scale(1.15); } 100% { transform: scale(1); } }
+.thank-you-section h3 { font-size: 2.8rem; margin-bottom: 25px; color: white; font-weight: 900; letter-spacing: -1px;}
+.thank-you-section p { font-size: 1.35rem; opacity: 0.9; max-width: 850px; margin: 0 auto; line-height: 1.8;}
+.powered-by { margin-top: 60px; font-size: 1.1rem; opacity: 0.8; letter-spacing: 2px; text-transform: uppercase;}
+.powered-by strong { color: #93c5fd; font-size: 1.4rem; font-weight: 900; letter-spacing: 3px; display: block; margin-top: 10px;}
+
+/* Scroll Reveal Animations */
+.reveal { opacity: 0; visibility: hidden; transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+.reveal.active { opacity: 1; visibility: visible; }
+.slide-up { transform: translateY(80px); }
+.slide-up.active { transform: translateY(0); }
+.slide-right { transform: translateX(-80px); }
+.slide-right.active { transform: translateX(0); }
+.fade-in { transform: scale(0.9); }
+.fade-in.active { transform: scale(1); }
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .ecosystem-grid { grid-template-columns: 1fr; }
+    .split-layout { flex-direction: column; }
+    .graphic-content { flex-direction: row; width: 100%; }
+    .crisis-stat { flex: 1; }
+}
+@media (max-width: 768px) {
+    .about-hero h1 { font-size: 2.8rem; }
+    .section-box { padding: 40px 30px; }
+    .section-box h2 { font-size: 2rem; flex-direction: column; text-align: center; }
+    .graphic-content { flex-direction: column; }
+    .team-wrapper { text-align: center; }
+}

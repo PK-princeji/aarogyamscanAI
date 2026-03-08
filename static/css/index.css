@@ -1,0 +1,187 @@
+/* NOTE: Global resets (*, body) have been removed so your 
+   base.css/navbar/footer styles remain perfectly intact. 
+*/
+
+.index-main-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* --- 1. HERO SECTION & MISSION SECTION FALLBACK LAYOUT --- */
+/* Providing basic flex properties just in case your original CSS is missing them, 
+   but not overriding any specific font or color you already have. */
+.hero-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    padding: 60px 0;
+    margin-bottom: 40px;
+}
+.hero-content { flex: 1;margin-left: 30px; }
+.hero-image { flex: 1; text-align: center;}
+.hero-image img { max-width: 95%; height: auto; border-radius: 22px;margin-right: 10px;}
+
+.our-mission {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    padding: 60px;
+    background-color: #f1f5f9; /* Fallback background if not defined in base */
+    margin-bottom: 60px;
+}
+.mission-content { flex: 1; }
+.brain-image { flex: 1; text-align: center; }
+.brain-image img { max-width: 100%; height: auto; border-radius: 12px; }
+
+/* --- 2. THE CURVED EDGES FOR THE LAST SECTION --- */
+/* This specifically adds the curve you requested to your original second section */
+.curved-edges {
+    border-radius: 40px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+/* --- 3. NEW INFORMATIVE SECTIONS STYLING --- */
+.info-section {
+    margin-bottom: 80px;
+    padding: 40px 0;
+}
+
+.info-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+.info-header h2 {
+    font-size: 2.2rem;
+    color: #1e3a8a;
+    margin-bottom: 15px;
+}
+.info-header p {
+    font-size: 1.1rem;
+    color: #64748b;
+}
+
+/* Services Grid */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+.info-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 40px 30px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.info-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(29, 78, 216, 0.1);
+    border-color: #3b82f6;
+}
+.icon-feature {
+    font-size: 2.5rem;
+    color: #2563eb;
+    background: #eff6ff;
+    padding: 20px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+.info-card h3 {
+    font-size: 1.4rem;
+    color: #0f172a;
+    margin-bottom: 15px;
+}
+.info-card p {
+    color: #475569;
+    line-height: 1.6;
+}
+
+/* Workflow Section */
+.workflow-section {
+    background: #f8fafc;
+    border-radius: 30px;
+    padding: 60px 40px;
+}
+.workflow-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.workflow-step {
+    flex: 1;
+    min-width: 220px;
+    text-align: center;
+    background: #ffffff;
+    padding: 30px 20px;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
+.step-circle {
+    width: 50px;
+    height: 50px;
+    background: #1e3a8a;
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin: 0 auto 20px auto;
+}
+.workflow-step h4 {
+    font-size: 1.2rem;
+    color: #0f172a;
+    margin-bottom: 10px;
+}
+.workflow-step p {
+    color: #64748b;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+.step-divider {
+    font-size: 2rem;
+    color: #cbd5e1;
+}
+
+/* --- 4. JS ANIMATION CLASSES --- */
+.js-scroll-fade {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.js-scroll-fade.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- RESPONSIVE FIXES --- */
+@media (max-width: 992px) {
+    .hero-section, .our-mission {
+        flex-direction: column;
+        text-align: center;
+    }
+    .hero-image, .brain-image {
+        margin-top: 30px;
+    }
+    .step-divider {
+        display: none;
+    }
+}
+@media (max-width: 768px) {
+    .our-mission.curved-edges {
+        padding: 40px 20px;
+        border-radius: 25px; /* Slightly smaller curve for mobile */
+    }
+    .workflow-section {
+        padding: 40px 20px;
+    }
+}

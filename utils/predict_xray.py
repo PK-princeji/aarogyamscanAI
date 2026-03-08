@@ -4,6 +4,7 @@ from tensorflow.keras.preprocessing import image
 
 # Load global model
 model_path = r"D:/final_year_project/code_X_Elite/aarogyamScanAi/models/AarogyamScanAI_xray_final.h5"
+# model_path = r"D:/final_year_project/code_X_Elite/aarogyamScanAi/models/xray/AarogyamScanAI_xray_1.1.h5"
 model = load_model(model_path)
 
 def predict_xray(img_path):

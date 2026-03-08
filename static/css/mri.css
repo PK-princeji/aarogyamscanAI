@@ -1,0 +1,142 @@
+/* MRI Specific Theme Variables - Neural & High-Tech */
+:root {
+    --mri-bg: #09090b;          /* Ultra dark zinc */
+    --mri-card: #18181b;        /* Dark zinc card */
+    --mri-primary: #8b5cf6;     /* Vivid Violet */
+    --mri-secondary: #d946ef;   /* Fuchsia/Magenta */
+    --mri-accent: #6366f1;      /* Indigo */
+    --mri-text-main: #fafafa;
+    --mri-text-muted: #a1a1aa;
+    --mri-border: #27272a;
+    --shadow-neural: 0 0 25px rgba(139, 92, 246, 0.25);
+    --shadow-magenta: 0 0 30px rgba(217, 70, 239, 0.3);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background-color: var(--mri-bg); color: var(--mri-text-main); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+.mri-container { max-width: 1450px; margin: 0 auto; padding: 80px 20px; }
+
+/* Typography */
+.section-header { text-align: center; max-width: 950px; margin: 0 auto 80px auto; }
+.section-header h2 { font-size: 3.2rem; background: linear-gradient(to right, var(--mri-primary), var(--mri-secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 25px; font-weight: 900; letter-spacing: -1px;}
+.section-header p { font-size: 1.25rem; color: var(--mri-text-muted); line-height: 1.8; }
+
+/* Buttons */
+.btn-primary, .btn-secondary { display: inline-flex; align-items: center; justify-content: center; gap: 15px; padding: 20px 45px; border-radius: 50px; text-decoration: none; font-weight: 800; font-size: 1.2rem; transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: none; cursor: pointer; position: relative; overflow: hidden; }
+.btn-primary { background: linear-gradient(135deg, var(--mri-primary), var(--mri-secondary)); color: white; box-shadow: var(--shadow-neural); z-index: 1;}
+.btn-primary::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, var(--mri-secondary), var(--mri-primary)); z-index: -1; transition: opacity 0.5s; opacity: 0; }
+.btn-primary:hover::before { opacity: 1; }
+.btn-primary:hover { transform: translateY(-7px) scale(1.03); box-shadow: var(--shadow-magenta); }
+.btn-secondary { background: rgba(24, 24, 27, 0.8); color: var(--mri-text-main); border: 2px solid var(--mri-border); backdrop-filter: blur(10px); }
+.btn-secondary:hover { border-color: var(--mri-primary); color: var(--mri-primary); transform: translateY(-5px); }
+.hero-actions { display: flex; gap: 25px; margin-top: 50px; flex-wrap: wrap;}
+
+section { margin-bottom: 160px; }
+
+/* 1. Hero Section & Glassmorphism */
+.hero-section { position: relative; border-radius: 40px; overflow: hidden; border: 1px solid var(--mri-border); }
+.parallax-bg { background: radial-gradient(circle at top right, rgba(139, 92, 246, 0.15), transparent 60%), radial-gradient(circle at bottom left, rgba(217, 70, 239, 0.1), transparent 50%); }
+.glass-panel { display: flex; align-items: center; gap: 80px; padding: 100px 80px; background: rgba(24, 24, 27, 0.4); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 40px; }
+.hero-content { flex: 1.3; z-index: 1; }
+.badge { display: inline-block; background: rgba(139, 92, 246, 0.15); color: #c4b5fd; padding: 12px 28px; border-radius: 30px; font-weight: 800; font-size: 0.95rem; margin-bottom: 35px; border: 1px solid rgba(139, 92, 246, 0.3); text-transform: uppercase; letter-spacing: 2px; box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);}
+.hero-content h1 { font-size: 4.5rem; line-height: 1.1; margin-bottom: 35px; font-weight: 900; color: white; text-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+.lead-text { font-size: 1.3rem; color: #d4d4d8; margin-bottom: 40px; line-height: 1.9; text-align: justify; font-weight: 300; }
+.hero-image { flex: 1; position: relative; z-index: 1; text-align: center; perspective: 1000px;}
+.hero-image img { width: 100%; max-width: 600px; border-radius: 30px; border: 2px solid rgba(139, 92, 246, 0.3); box-shadow: var(--shadow-magenta); transform: rotateY(-10deg) rotateX(5deg); transition: transform 0.7s ease; }
+.hero-image:hover img { transform: rotateY(0) rotateX(0); }
+.float-animation { animation: neural-float 8s ease-in-out infinite; }
+@keyframes neural-float { 0% { transform: translateY(0px) scale(1); } 50% { transform: translateY(-25px) scale(1.02); } 100% { transform: translateY(0px) scale(1); } }
+
+/* 2. Stats Section */
+.stats-section { display: flex; justify-content: space-around; background: var(--mri-card); border: 1px solid var(--mri-border); padding: 70px 40px; border-radius: 30px; flex-wrap: wrap; gap: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); position: relative; overflow: hidden;}
+.stats-section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--mri-primary), var(--mri-secondary), var(--mri-accent)); }
+.stat-box { text-align: center; flex: 1; min-width: 200px; }
+.stat-box .stat-number { display: inline-block; font-size: 5rem; font-weight: 900; color: white; text-shadow: var(--shadow-neural); }
+.stat-box .stat-symbol { font-size: 3rem; font-weight: 800; color: var(--mri-secondary); }
+.stat-box p { font-size: 1.25rem; color: var(--mri-text-muted); margin-top: 15px; font-weight: 600; letter-spacing: 0.5px; }
+
+/* 3. Modalities Grid (NEW) */
+.modality-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+.modality-card { background: rgba(24, 24, 27, 0.6); border: 1px solid var(--mri-border); padding: 40px; border-radius: 20px; transition: all 0.3s; position: relative; overflow: hidden; }
+.modality-card::before { content: ''; position: absolute; left: 0; top: 0; width: 4px; height: 100%; background: var(--mri-primary); transition: width 0.3s; z-index: 0; opacity: 0.1;}
+.modality-card:hover::before { width: 100%; opacity: 0.05; }
+.modality-card:hover { border-color: var(--mri-primary); transform: translateY(-5px); }
+.modality-header { font-size: 1.5rem; font-weight: 800; color: var(--mri-primary); margin-bottom: 20px; position: relative; z-index: 1;}
+.modality-card p { color: var(--mri-text-muted); font-size: 1.05rem; line-height: 1.7; margin-bottom: 15px; position: relative; z-index: 1; }
+.modality-card strong { color: #e4e4e7; }
+
+/* 4. Diseases Grid (4 cards for MRI) */
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; }
+.disease-card { background: var(--mri-card); padding: 50px 40px; border-radius: 30px; border: 1px solid var(--mri-border); transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); position: relative; overflow: hidden; }
+.disease-card::after { content: ''; position: absolute; top: -50px; right: -50px; width: 150px; height: 150px; background: radial-gradient(circle, rgba(217, 70, 239, 0.15) 0%, transparent 70%); border-radius: 50%; }
+.hover-lift:hover { transform: translateY(-20px) scale(1.02); border-color: var(--mri-secondary); box-shadow: var(--shadow-magenta); z-index: 10;}
+.disease-card .icon { font-size: 4.5rem; color: var(--mri-secondary); margin-bottom: 35px; }
+.disease-card h3 { font-size: 1.9rem; margin-bottom: 25px; color: white; font-weight: 800; }
+.disease-details p { color: var(--mri-text-muted); font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px; text-align: justify; }
+.disease-details strong { color: var(--mri-primary); font-weight: 700;}
+
+/* 5. Timeline */
+.timeline-container { position: relative; max-width: 1100px; margin: 0 auto; }
+.timeline-container::after { content: ''; position: absolute; width: 2px; background: rgba(139, 92, 246, 0.3); top: 0; bottom: 0; left: 50%; transform: translateX(-50%); }
+.timeline-item { position: relative; width: 50%; padding: 40px; margin-bottom: 40px; }
+.timeline-item:nth-child(odd) { left: 0; text-align: right; padding-right: 80px; }
+.timeline-item:nth-child(even) { left: 50%; padding-left: 80px; }
+.timeline-icon { position: absolute; top: 50%; transform: translateY(-50%); width: 60px; height: 60px; background: var(--mri-bg); border: 4px solid var(--mri-secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--mri-secondary); font-size: 1.6rem; z-index: 1; box-shadow: var(--shadow-magenta); }
+.timeline-item:nth-child(odd) .timeline-icon { right: -30px; }
+.timeline-item:nth-child(even) .timeline-icon { left: -30px; }
+.timeline-content { background: var(--mri-card); padding: 45px; border-radius: 24px; border: 1px solid var(--mri-border); box-shadow: 0 10px 30px rgba(0,0,0,0.5); transition: transform 0.3s; }
+.timeline-content:hover { transform: scale(1.03); border-color: var(--mri-primary); }
+.timeline-content h3 { color: white; margin-bottom: 20px; font-size: 1.7rem; }
+.timeline-content p { color: var(--mri-text-muted); font-size: 1.15rem; line-height: 1.8; }
+
+/* 6. Architecture Flow (4 Steps) */
+.architecture-flow { display: flex; justify-content: space-between; align-items: stretch; background: var(--mri-card); padding: 50px; border-radius: 30px; border: 1px solid var(--mri-border); margin-top: 50px; gap: 15px; flex-wrap: wrap; position: relative;}
+.arch-step { flex: 1; min-width: 220px; text-align: center; padding: 40px 30px; background: rgba(9, 9, 11, 0.8); border-radius: 20px; border: 1px solid var(--mri-border); transition: all 0.4s; position: relative; overflow: hidden; }
+.arch-step::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: var(--mri-primary); transform: scaleX(0); transition: transform 0.4s; transform-origin: left;}
+.arch-step:hover::before { transform: scaleX(1); }
+.arch-step:hover { background: var(--mri-card); transform: translateY(-15px); box-shadow: var(--shadow-neural); border-color: var(--mri-primary);}
+.step-num { font-size: 4rem; font-weight: 900; color: rgba(139, 92, 246, 0.2); margin-bottom: 20px; line-height: 1;}
+.arch-step h4 { font-size: 1.4rem; color: var(--mri-text-main); margin-bottom: 20px; font-weight: 700; }
+.arch-step p { color: var(--mri-text-muted); font-size: 1rem; line-height: 1.7; }
+.arch-flow-arrow { display: flex; align-items: center; justify-content: center; font-size: 2rem; color: var(--mri-primary); opacity: 0.5; }
+
+/* 7. Advanced FAQ */
+.faq-container { max-width: 1000px; margin: 0 auto; }
+.faq-item { margin-bottom: 25px; border-radius: 20px; border: 1px solid var(--mri-border); background: var(--mri-card); transition: all 0.3s; }
+.faq-item:hover { border-color: rgba(139, 92, 246, 0.5); }
+.faq-question { width: 100%; text-align: left; padding: 30px 40px; font-size: 1.3rem; font-weight: 700; color: white; background: transparent; border: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-family: inherit; }
+.faq-question i { color: var(--mri-secondary); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); background: rgba(217, 70, 239, 0.1); padding: 10px; border-radius: 50%; }
+.faq-question.active i { transform: rotate(180deg); background: var(--mri-secondary); color: white;}
+.faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.5s ease; }
+.faq-answer p { padding: 0 40px 35px 40px; color: var(--mri-text-muted); font-size: 1.15rem; line-height: 1.9; text-align: justify; }
+
+/* Animations */
+.reveal { opacity: 0; visibility: hidden; transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+.reveal.active { opacity: 1; visibility: visible; }
+.slide-up { transform: translateY(100px); }
+.slide-up.active { transform: translateY(0); }
+.slide-right { transform: translateX(-100px); }
+.slide-right.active { transform: translateX(0); }
+.slide-left { transform: translateX(100px); }
+.slide-left.active { transform: translateX(0); }
+.fade-in { transform: scale(0.9); }
+.fade-in.active { transform: scale(1); }
+.pulse-animation { animation: pulse-mri 2.5s infinite; }
+@keyframes pulse-mri { 0% { box-shadow: 0 0 0 0 rgba(217, 70, 239, 0.5); } 70% { box-shadow: 0 0 0 25px rgba(217, 70, 239, 0); } 100% { box-shadow: 0 0 0 0 rgba(217, 70, 239, 0); } }
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1300px) {
+    .glass-panel { flex-direction: column; text-align: center; padding: 60px 40px; }
+    .hero-actions { justify-content: center; }
+    .timeline-container::after { left: 40px; transform: none; }
+    .timeline-item { width: 100%; left: 0 !important; padding-left: 100px !important; padding-right: 0 !important; text-align: left !important; }
+    .timeline-icon { left: 10px !important; right: auto !important; }
+    .arch-flow-arrow { transform: rotate(90deg); margin: 10px 0; }
+    .architecture-flow { flex-direction: column; }
+}
+@media (max-width: 768px) {
+    .hero-content h1 { font-size: 3rem; }
+    .stat-box { min-width: 100%; }
+    .timeline-item { padding-left: 80px !important; }
+    .timeline-icon { width: 50px; height: 50px; font-size: 1.2rem; left: 15px !important; }
+}

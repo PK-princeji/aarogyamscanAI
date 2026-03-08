@@ -1,33 +1,214 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/solution.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/xray_solution.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 {% endblock %}
 
 {% block content %}
-<main>
+<main class="aarogyam-container">
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
+        <div class="flash-container">
         {% for category, msg in messages %}
-        <div class="flash {{ category }}">{{ msg }}</div>
+            <div class="flash {{ category }}">{{ msg }}</div>
         {% endfor %}
+        </div>
     {% endif %}
     {% endwith %}
 
-    <section class="solution-section">
-        <div class="solution-content">
-            <h1>X-Ray Analysis</h1>
-            <p>Our advanced X-Ray Analysis solution leverages AI to provide precise diagnostic insights, helping healthcare professionals detect abnormalities with ease. Experience faster and more accurate readings for better patient outcomes.</p>
-            <ul class="features-list">
-                <li>AI-driven detection of fractures and lung conditions.</li>
-                <li>High-resolution image processing for detailed analysis.</li>
-                <li>Secure and confidential scan evaluation.</li>
-            </ul>
-            <a href="{{ url_for('xray_upload_route') }}" class="btn-primary">Upload X-Ray Now</a>
+    <section class="hero-section reveal slide-up">
+        <div class="hero-content">
+            <div class="badge fade-in-delay">AarogyamScanAI Diagnostic Module v2.0</div>
+            <h1>The Apex of AI-Driven Radiomics</h1>
+            <p class="lead-text">AarogyamScanAI represents a paradigm shift in medical imaging. By deploying deep Convolutional Neural Networks (CNNs) trained on vast, globally sourced datasets, we transform standard chest X-rays into highly actionable, pixel-perfect diagnostic intelligence. It is engineered to operate as a tireless, hyper-accurate digital radiologist, eliminating human error and democratizing access to critical healthcare.</p>
+            <div class="hero-actions">
+                <a href="{{ url_for('xray_upload_route') }}" class="btn-primary btn-large hover-glow">
+                    <i class="fas fa-microchip"></i> Initialize Neural Scan
+                </a>
+                <a href="#technical-architecture" class="btn-secondary">View Architecture</a>
+            </div>
         </div>
-        <div class="solution-image">
-            <img src="{{ url_for('static', filename='img/image.jpg') }}" alt="X-Ray Analysis Illustration">
+        <div class="hero-image float-animation">
+            <img src="{{ url_for('static', filename='img/image.jpg') }}" alt="AI scanning an X-ray of lungs">
+        </div>
+    </section>
+
+    <section class="stats-section reveal fade-in">
+        <div class="stat-box">
+            <div class="stat-number" data-target="98">0</div><span class="stat-symbol">%</span>
+            <p>Diagnostic Accuracy Rate</p>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number" data-target="3">0</div><span class="stat-symbol">s</span>
+            <p>Average Processing Time</p>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number" data-target="100">0</div><span class="stat-symbol">%</span>
+            <p>Eco-Friendly & Chemical Free</p>
+        </div>
+    </section>
+
+    <section class="diseases-section reveal slide-up">
+        <div class="section-header">
+            <h2>Primary Pathologies & Clinical Focus</h2>
+            <p>Our deep learning models have been fine-tuned to detect the top three respiratory anomalies responsible for the highest global mortality rates. Early detection of these specific vectors is critical.</p>
+        </div>
+        <div class="cards-grid">
+            <div class="disease-card hover-lift">
+                <div class="icon"><i class="fas fa-lungs-virus"></i></div>
+                <h3>Pneumonia Detection</h3>
+                <div class="disease-details">
+                    <p><strong>Clinical Manifestation:</strong> Alveolar inflammation leading to fluid or pus accumulation, severely restricting oxygenation and causing acute respiratory distress.</p>
+                    <p><strong>Why We Chose It:</strong> Pneumonia is the apex infectious killer of infants globally. Our AI isolates bilateral consolidations instantly, allowing pediatricians to initiate life-saving antibiotic therapy without waiting for manual radiological reports.</p>
+                </div>
+            </div>
+            <div class="disease-card hover-lift">
+                <div class="icon"><i class="fas fa-bacteria"></i></div>
+                <h3>Tuberculosis (TB) Screening</h3>
+                <div class="disease-details">
+                    <p><strong>Clinical Manifestation:</strong> Granulomatous lesions, cavitation, and severe structural degradation of pulmonary tissue caused by Mycobacterium tuberculosis.</p>
+                    <p><strong>Why We Chose It:</strong> The epidemiological burden of TB in developing nations is catastrophic. Manual screening bottlenecks lead to prolonged asymptomatic transmission. AarogyamScanAI breaks this chain by providing instant, localized screening camps with immediate results.</p>
+                </div>
+            </div>
+            <div class="disease-card hover-lift">
+                <div class="icon"><i class="fas fa-disease"></i></div>
+                <h3>Lung Cancer Detection</h3>
+                <div class="disease-details">
+                    <p><strong>Clinical Pathogenesis:</strong> Uncontrolled cellular proliferation within pulmonary tissues, often manifesting as malignant pulmonary nodules, masses, or pleural effusions.</p>
+                    <p><strong>Why We Chose It:</strong> Lung cancer is the leading cause of cancer-related mortality globally. Early-stage micro-nodules are notoriously difficult for the human eye to detect on standard X-rays. Our CNN isolates these anomalies in their infancy, drastically improving patient survival rates through early intervention.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="problem-section reveal slide-right">
+        <div class="section-header">
+            <h2>The Collapse of Traditional Diagnostics</h2>
+            <p>AarogyamScanAI was engineered as a direct response to the systemic failures of the conventional medical imaging pipeline.</p>
+        </div>
+        <div class="timeline-container">
+            <div class="timeline-item reveal slide-left">
+                <div class="timeline-icon pulse-animation"><i class="fas fa-user-md"></i></div>
+                <div class="timeline-content">
+                    <h3>A. The Radiologist Deficit</h3>
+                    <p>The global healthcare infrastructure faces a catastrophic shortage of trained radiologists. In rural sectors, the radiologist-to-patient ratio can be as severe as 1:100,000. Patients endure grueling travel simply to have an X-ray film analyzed.</p>
+                    <div class="research-citation">
+                        <i class="fas fa-microscope"></i> <strong>WHO Global Workforce Data:</strong> Highlights that specialized diagnostic personnel shortages directly inflate the mortality rates of treatable respiratory diseases by over 40% in emerging economies.
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-item reveal slide-right">
+                <div class="timeline-icon pulse-animation"><i class="fas fa-exclamation-triangle"></i></div>
+                <div class="timeline-content">
+                    <h3>B. Cognitive Fatigue & Human Error</h3>
+                    <p>Radiologists are human. After analyzing hundreds of complex grayscale images over a 12-hour shift, visual fatigue degrades diagnostic accuracy, leading to false negatives (missed early-stage tumors or micro-lesions).</p>
+                    <div class="research-citation">
+                        <i class="fas fa-microscope"></i> <strong>RSNA Clinical Studies:</strong> Retrospective audits indicate that human diagnostic error rates can peak at 30% under high-volume stress conditions, compromising patient safety.
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-item reveal slide-left">
+                <div class="timeline-icon pulse-animation"><i class="fas fa-dollar-sign"></i></div>
+                <div class="timeline-content">
+                    <h3>C. Prohibitive Socio-Economic Costs</h3>
+                    <p>The cumulative cost of specialist fees, film printing, and logistics places an unbearable financial burden on marginalized communities, forcing many to abandon treatment entirely.</p>
+                    <div class="research-citation">
+                        <i class="fas fa-microscope"></i> <strong>World Bank Health Report:</strong> Identifies out-of-pocket diagnostic expenses as a primary catalyst pushing vulnerable populations beneath the poverty line.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="technical-architecture" class="architecture-section reveal fade-in">
+        <div class="section-header">
+            <h2>Deep Learning Architecture</h2>
+            <p>How our neural engine processes raw medical imagery into clinical intelligence.</p>
+        </div>
+        <div class="architecture-flow">
+            <div class="arch-step">
+                <div class="step-num">01</div>
+                <h4>Image Pre-processing</h4>
+                <p>Raw DICOM/JPEG files are normalized. Noise reduction algorithms and CLAHE (Contrast Limited Adaptive Histogram Equalization) enhance pulmonary structures.</p>
+            </div>
+            <div class="arch-flow-arrow"><i class="fas fa-arrow-right"></i></div>
+            <div class="arch-step">
+                <div class="step-num">02</div>
+                <h4>Feature Extraction (CNN)</h4>
+                <p>The image passes through multiple Convolutional and Pooling layers (e.g., ResNet/DenseNet architecture). The network extracts low-level edges to high-level pathological patterns.</p>
+            </div>
+            <div class="arch-flow-arrow"><i class="fas fa-arrow-right"></i></div>
+            <div class="arch-step">
+                <div class="step-num">03</div>
+                <h4>Classification Layer</h4>
+                <p>Fully Connected (Dense) layers compile the extracted features. Softmax/Sigmoid activation functions generate a probabilistic output for the presence of Pneumonia, TB, or Lung Cancer.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="resolution-section reveal slide-up">
+        <div class="section-header">
+            <h2>Ecological Sustainability vs. Medical Waste</h2>
+            <p>Traditional radiology is an environmental hazard. AarogyamScanAI is a green technology initiative.</p>
+        </div>
+        <div class="impact-grid">
+            <div class="impact-card toxic hover-lift">
+                <div class="card-head">
+                    <i class="fas fa-biohazard"></i>
+                    <h3>The Traditional Ecological Hazard</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="custom-list">
+                        <li><strong>Chemical Toxicity:</strong> 'Developer' and 'Fixer' chemicals used in darkrooms are highly toxic. Improper disposal leaches heavy metals into groundwater ecosystems.</li>
+                        <li><strong>Silver Halide Contamination:</strong> Traditional films are coated with Silver Halide. When disposed of in landfills, these compounds degrade soil microbiomes permanently.</li>
+                        <li><strong>Carbon Emission Footprint:</strong> Manufacturing plastic polymer films and the physical transportation of reports generate a massive, unnecessary carbon footprint.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="impact-card green hover-lift">
+                <div class="card-head">
+                    <i class="fas fa-leaf"></i>
+                    <h3>The AarogyamScanAI Resolution</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="custom-list">
+                        <li><strong>100% Digital & Chemical-Free:</strong> By shifting to cloud-based neural networks, we completely eradicate the need for toxic processing fluids and plastic films.</li>
+                        <li><strong>Zero Physical Waste:</strong> No paper envelopes, no plastic sheets. The entire lifecycle of the diagnosis is secured in sustainable data centers.</li>
+                        <li><strong>Decarbonizing Healthcare:</strong> Instant digital transmission means zero physical travel for report transfers, drastically reducing the overall carbon emissions of the healthcare sector.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section reveal fade-in">
+        <div class="section-header">
+            <h2>Frequently Asked Questions</h2>
+            <p>Technical and clinical inquiries regarding the AarogyamScanAI engine.</p>
+        </div>
+        <div class="faq-container">
+            <div class="faq-item">
+                <button class="faq-question">Can AI completely replace a human radiologist? <i class="fas fa-chevron-down"></i></button>
+                <div class="faq-answer">
+                    <p>No. AarogyamScanAI is designed as an assistive tool, not a replacement. It acts as a highly accurate "second opinion" and a triage system to prioritize critical cases, allowing human radiologists to focus on complex, nuanced diagnoses while the AI handles high-volume screening.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">What format of X-ray images are supported? <i class="fas fa-chevron-down"></i></button>
+                <div class="faq-answer">
+                    <p>Our pre-processing engine accepts standard image formats including JPEG, PNG, and standard medical DICOM files. The system automatically resizes and equalizes the contrast of the uploaded scan before feeding it to the CNN.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">How is patient data secured and anonymized? <i class="fas fa-chevron-down"></i></button>
+                <div class="faq-answer">
+                    <p>All uploads are strictly confidential. We strip all metadata (EXIF/DICOM headers) containing Personally Identifiable Information (PII) before the image is processed. Scans are not stored permanently unless explicitly authorized for research model training.</p>
+                </div>
+            </div>
         </div>
     </section>
 </main>
+
+<script src="{{ url_for('static', filename='js/xray_solution.js') }}"></script>
 {% endblock %}

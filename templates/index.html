@@ -1,7 +1,12 @@
 {% extends "base.html" %}
 
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+{% endblock %}
+
 {% block content %}
- 
+<main class="index-main-container">
     
     <section class="hero-section">
         <div class="hero-content">
@@ -9,23 +14,75 @@
             <p class="tagline">Empowering you with AI-powered diagnostic insights from medical scans.</p>
             <p>Our platform provides fast, accurate, and secure analysis of medical images to assist in early disease
                 detection and treatment planning.</p>
-            <!-- Updated URL endpoint -->
             <a href="{{ url_for('xray_upload_route') }}" class="btn-primary">Upload Your Scan Now</a>
         </div>
         <div class="hero-image">
-                      <img src="{{ url_for('static', filename='img/image.jpg') }}" alt="Hader Image">
-     </div>
+            <img src="{{ url_for('static', filename='img/image.jpg') }}" alt="Hader Image">
+        </div>
     </section>
-    
-    <section class="our-mission full-bleed">
+
+    <section class="info-section services-section js-scroll-fade">
+        <div class="info-header">
+            <h2>Comprehensive AI Diagnostics</h2>
+            <p>Advanced neural networks trained to detect anomalies across multiple imaging modalities.</p>
+        </div>
+        <div class="info-grid">
+            <div class="info-card">
+                <i class="fas fa-lungs icon-feature"></i>
+                <h3>X-Ray Analysis</h3>
+                <p>Instant detection of Pneumonia, Tuberculosis, and early-stage anomalies with high precision.</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-brain icon-feature"></i>
+                <h3>CT & MRI Scans</h3>
+                <p>Volumetric 3D analysis for identifying Hemorrhages, Tumors, and Neurological conditions.</p>
+            </div>
+            <div class="info-card">
+                <i class="fas fa-bone icon-feature"></i>
+                <h3>Orthopedic Scans</h3>
+                <p>Automated detection of micro-fractures, bone density issues, and joint dislocations.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="info-section workflow-section js-scroll-fade">
+        <div class="info-header">
+            <h2>How It Works</h2>
+            <p>Get precise clinical insights in three simple steps.</p>
+        </div>
+        <div class="workflow-container">
+            <div class="workflow-step">
+                <div class="step-circle">1</div>
+                <h4>Upload Scan</h4>
+                <p>Securely upload your DICOM, JPEG, or PNG images.</p>
+            </div>
+            <div class="step-divider"><i class="fas fa-arrow-right"></i></div>
+            <div class="workflow-step">
+                <div class="step-circle">2</div>
+                <h4>AI Processing</h4>
+                <p>Our Deep Learning engine analyzes the scan instantly.</p>
+            </div>
+            <div class="step-divider"><i class="fas fa-arrow-right"></i></div>
+            <div class="workflow-step">
+                <div class="step-circle">3</div>
+                <h4>Instant Report</h4>
+                <p>Download a detailed report with diagnostic heatmaps.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="our-mission full-bleed curved-edges js-scroll-fade">
         <div class="mission-content wrap">
             <h2> AI in Medical Radiology</h2>
             <p>Our mission is to integrate advanced artificial intelligence into diagnostic workflows.</p>  
-            <button class="btn-primary" onclick="location.href='about.php'">Learn More</button>
+            <button class="btn-primary" onclick="location.href='{{ url_for('about_project') }}'">Learn More</button>
         </div>
         <div class="brain-image">
             <img src="{{ url_for('static', filename='img/images.jpeg') }}" alt="Brain Image">
         </div>
     </section>
+
 </main>
+
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
 {% endblock %}

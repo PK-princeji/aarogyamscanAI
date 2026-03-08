@@ -1,5 +1,4 @@
 # app.py: Main Flask application with route imports and configuration
-
 from flask import Flask, g
 import os
 import sqlite3

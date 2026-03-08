@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/mri.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+<main class="mri-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="flash-container">
+        {% for category, msg in messages %}
+            <div class="flash {{ category }}">{{ msg }}</div>
+        {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
+
+    <section class="hero-section reveal slide-up parallax-bg">
+        <div class="glass-panel">
+            <div class="hero-content">
+                <div class="badge fade-in-delay">AarogyamScanAI Neuro-Oncology Engine v4.0</div>
+                <h1>Magnetic Resonance AI Intelligence</h1>
+                <p class="lead-text">Magnetic Resonance Imaging (MRI) produces the most intricate soft-tissue contrast in medical science, generating multi-parametric, high-dimensional voxel data. AarogyamScanAI deploys an unprecedented hybrid architecture combining 3D U-Net segmentation with Vision Transformers (ViT). Our engine parses T1, T2, FLAIR, and DWI sequences simultaneously to map neurodegenerative atrophy, demyelinating lesions, and soft-tissue sarcomas with sub-millimeter, mathematically absolute precision.</p>
+                <div class="hero-actions">
+                    <a href="#" class="btn-primary btn-large hover-glow">
+                        <i class="fas fa-brain"></i> Initialize Multi-Parametric Scan
+                    </a>
+                    <a href="#modalities" class="btn-secondary">Explore Sequences</a>
+                </div>
+            </div>
+            <div class="hero-image float-animation">
+                <img src="{{ url_for('static', filename='img/mri_hero.jpg') }}" alt="AI MRI Brain Analysis" onerror="this.src='https://images.unsplash.com/photo-1559757175-5700dde675bc?auto=format&fit=crop&q=80&w=800';">
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-section reveal fade-in">
+        <div class="stat-box">
+            <div class="stat-number" data-target="99">0</div><span class="stat-symbol">.8%</span>
+            <p>Soft-Tissue Segmentation Accuracy</p>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number" data-target="4">0</div><span class="stat-symbol">D</span>
+            <p>Spatio-Temporal Processing</p>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number" data-target="1500">0</div><span class="stat-symbol">+</span>
+            <p>Voxels Analyzed per Millisecond</p>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number" data-target="0">0</div><span class="stat-symbol">%</span>
+            <p>Ionizing Radiation Hazard</p>
+        </div>
+    </section>
+
+    <section id="modalities" class="modalities-section reveal slide-up">
+        <div class="section-header">
+            <h2>Multi-Parametric Sequence Integration</h2>
+            <p>Human eyes analyze one sequence at a time. AarogyamScanAI cross-references multiple MRI physics principles simultaneously to eliminate false positives.</p>
+        </div>
+        <div class="modality-grid">
+            <div class="modality-card">
+                <div class="modality-header">T1-Weighted (T1W)</div>
+                <p><strong>Physics Focus:</strong> Longitudinal relaxation time. Excellent for defining anatomical structures.</p>
+                <p><strong>AI Utilization:</strong> Used as the baseline coordinate map for our spatial registration algorithms, allowing the CNN to map exact brain lobular boundaries.</p>
+            </div>
+            <div class="modality-card">
+                <div class="modality-header">T2-Weighted (T2W)</div>
+                <p><strong>Physics Focus:</strong> Transverse relaxation time. Fluids appear hyperintense (bright).</p>
+                <p><strong>AI Utilization:</strong> The primary vector for detecting edema (swelling) and inflammation around tumors or severe spinal disc herniations.</p>
+            </div>
+            <div class="modality-card">
+                <div class="modality-header">FLAIR Sequence</div>
+                <p><strong>Physics Focus:</strong> Fluid-Attenuated Inversion Recovery. Nullifies cerebrospinal fluid (CSF) signals.</p>
+                <p><strong>AI Utilization:</strong> Critical for identifying demyelinating plaques in Multiple Sclerosis, preventing the AI from confusing lesions with normal brain fluid.</p>
+            </div>
+            <div class="modality-card">
+                <div class="modality-header">DWI & ADC Maps</div>
+                <p><strong>Physics Focus:</strong> Diffusion-Weighted Imaging tracks water molecule restriction at the cellular level.</p>
+                <p><strong>AI Utilization:</strong> Enables the neural network to detect acute ischemic strokes within minutes of onset, far before structural changes are visible on standard T1/T2.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="diseases-section reveal slide-up">
+        <div class="section-header">
+            <h2>Advanced Neurological & Oncological Targeting</h2>
+            <p>Our deep learning architecture targets the most complex, difficult-to-diagnose conditions that require pixel-by-pixel tracking over time.</p>
+        </div>
+        <div class="cards-grid">
+            <div class="disease-card hover-lift">
+                <div class="icon"><i class="fas fa-memory"></i></div>
+                <h3>Alzheimer's & Dementia</h3>
+                <div class="disease-details">
+                    <p><strong>Pathological Vector:</strong> Progressive neurodegeneration leading to severe cortical atrophy and ventricular enlargement.</p>
+                    <p><strong>AI Intervention:</strong> AarogyamScanAI employs Hippocampal Volumetric Tracking. By calculating the exact cubic millimeter volume of the hippocampus across sequential MRI scans, the AI detects micro-atrophy years before clinical memory loss manifests.</p>
+                </div>
+            </div>
+            <div class="disease-card hover-lift">
+                <div class="icon"><i class="fas fa-network-wired"></i></div>
+                <h3>Multiple Sclerosis (MS)</h3>
+                <div class="disease-details">
+                    <p><strong>Pathological Vector:</strong> Autoimmune destruction of the protective myelin sheath covering nerve fibers, causing scarred plaques.</p>
+                    <p><strong>AI Intervention:</strong> Tracking the growth or shrinkage of MS lesions across time (spatio-temporal analysis) is a mathematical nightmare for humans. Our 3D U-Net isolates and counts every plaque on FLAIR sequences, generating an absolute disease progression metric.</p>
+                </div>
+            </div>
+            <div class="disease-card hover-lift">
+                <div class="icon"><i class="fas fa-disease"></i></div>
+                <h3>Glioblastoma Multiforme (GBM)</h3>
+                <div class="disease-details">
+                    <p><strong>Pathological Vector:</strong> The most aggressive malignant primary brain tumor, characterized by a necrotic core and extensive surrounding edema.</p>
+                    <p><strong>AI Intervention:</strong> Using multi-channel input (T1+Contrast, T2, FLAIR), the AI segments the tumor into three distinct zones: the enhancing core, the necrotic center, and the surrounding peritumoral edema. This dictates the exact radiotherapy targeting zone.</p>
+                </div>
+            </div>
+            <div class="disease-card hover-lift">
+                <div class="icon"><i class="fas fa-bone"></i></div>
+                <h3>Spinal Cord Compression</h3>
+                <div class="disease-details">
+                    <p><strong>Pathological Vector:</strong> Herniated intervertebral discs or spinal stenosis causing mechanical compression of the spinal cord or nerve roots.</p>
+                    <p><strong>AI Intervention:</strong> The network maps the entire cervical, thoracic, and lumbar spine, calculating the exact millimeter diameter of the spinal canal at every intervertebral level, instantly flagging critical stenosis points.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="problem-section reveal slide-right">
+        <div class="section-header">
+            <h2>The MRI Data Avalanche</h2>
+            <p>Why human cognition is fundamentally incompatible with modern multi-parametric MRI throughput.</p>
+        </div>
+        <div class="timeline-container">
+            <div class="timeline-item reveal slide-left">
+                <div class="timeline-icon pulse-animation"><i class="fas fa-layer-group"></i></div>
+                <div class="timeline-content">
+                    <h3>A. Multi-Dimensional Overload</h3>
+                    <p>A single MRI exam consists of 4 to 6 different sequences, each containing hundreds of slices. A radiologist must mentally cross-reference a suspected lesion on T1, verify it on T2, and check for restriction on DWI. This mental juggling causes severe cognitive fatigue.</p>
+                </div>
+            </div>
+            <div class="timeline-item reveal slide-right">
+                <div class="timeline-icon pulse-animation"><i class="fas fa-chart-line"></i></div>
+                <div class="timeline-content">
+                    <h3>B. Lack of Quantitative Metrics</h3>
+                    <p>Human diagnosis is qualitative ("The tumor looks slightly bigger"). Oncology requires quantitative data. Manually drawing boundaries around a complex 3D tumor on 50 different slices to calculate its volume is practically impossible in a busy clinical setting.</p>
+                </div>
+            </div>
+            <div class="timeline-item reveal slide-left">
+                <div class="timeline-icon pulse-animation"><i class="fas fa-clock"></i></div>
+                <div class="timeline-content">
+                    <h3>C. The Reporting Backlog</h3>
+                    <p>Because MRI interpretation is incredibly complex, reports often take 3 to 7 days to reach the patient. In cases of acute spinal cord compression or aggressive tumors, this delay causes irreversible neurological deficits.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="architecture" class="architecture-section reveal fade-in">
+        <div class="section-header">
+            <h2>Hybrid 3D U-Net & Vision Transformer (ViT) Architecture</h2>
+            <p>The bleeding edge of medical computer vision.</p>
+        </div>
+        <div class="architecture-flow">
+            <div class="arch-step">
+                <div class="step-num">01</div>
+                <h4>Multi-Channel Tensor Stacking</h4>
+                <p>T1, T2, FLAIR, and DWI DICOM series are co-registered (spatially aligned) into a single 4D tensor matrix. Skull-stripping algorithms remove non-brain tissue to optimize computational load.</p>
+            </div>
+            <div class="arch-flow-arrow"><i class="fas fa-arrow-right"></i></div>
+            <div class="arch-step">
+                <div class="step-num">02</div>
+                <h4>Local Feature Extraction (3D U-Net)</h4>
+                <p>The convolutional contracting path of the U-Net captures high-resolution local textures (edges, micro-bleeds), while the expansive path accurately reconstructs the spatial boundaries of the anomaly.</p>
+            </div>
+            <div class="arch-flow-arrow"><i class="fas fa-arrow-right"></i></div>
+            <div class="arch-step">
+                <div class="step-num">03</div>
+                <h4>Global Context (Vision Transformers)</h4>
+                <p>Unlike CNNs which only look at local pixels, integrated Transformer attention mechanisms analyze the entire brain structure simultaneously, understanding long-range anatomical relationships (e.g., midline shift caused by a distant tumor).</p>
+            </div>
+            <div class="arch-flow-arrow"><i class="fas fa-arrow-right"></i></div>
+            <div class="arch-step">
+                <div class="step-num">04</div>
+                <h4>Voxel-Wise Classification</h4>
+                <p>The final output is a 3D segmented mask. Every single voxel is classified (e.g., 0=Healthy, 1=Edema, 2=Necrosis), generating an automated, mathematically absolute radiomics report.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section reveal fade-in">
+        <div class="section-header">
+            <h2>Deep Technical Inquiries</h2>
+            <p>Addressing clinical concerns regarding MRI AI integrations.</p>
+        </div>
+        <div class="faq-container">
+            <div class="faq-item">
+                <button class="faq-question">How does the AI handle motion artifacts in MRI? <i class="fas fa-chevron-down"></i></button>
+                <div class="faq-answer">
+                    <p>MRI scans take 20-40 minutes, making patient movement a major issue (motion artifacts/ghosting). AarogyamScanAI incorporates a Generative Adversarial Network (GAN) preprocessing layer that identifies k-space corruption and reconstructs/denoises the image before it hits the primary diagnostic CNN.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">Can AarogyamScanAI analyze Gadolinium Contrast scans? <i class="fas fa-chevron-down"></i></button>
+                <div class="faq-answer">
+                    <p>Yes. The system is trained on both pre-contrast and post-contrast T1-weighted sequences. By calculating the subtraction maps mathematically, the AI identifies regions of blood-brain barrier breakdown (contrast enhancement) indicating active tumor growth or acute infection.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">What is the difference between the CT model and the MRI model? <i class="fas fa-chevron-down"></i></button>
+                <div class="faq-answer">
+                    <p>While both use 3D convolutions, CT data relies on absolute Hounsfield Units (bone is always +1000, air is -1000). MRI intensities are relative and vary by scanner brand (Siemens, GE, Philips). Our MRI model uses advanced intensity normalization (z-score scaling and histogram matching) to ensure the AI works flawlessly regardless of the MRI machine used.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script src="{{ url_for('static', filename='js/mri.js') }}"></script>
+{% endblock %}

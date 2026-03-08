@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/ctscan.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+<main class="ctscan-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="flash-container">
+        {% for category, msg in messages %}
+            <div class="flash {{ category }}">{{ msg }}</div>
+        {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
+
+    <section class="hero-section reveal slide-up">
+        <div class="hero-content">
+            <div class="badge fade-in-delay">AarogyamScanAI 3D Volumetric Engine</div>
+            <h1>Advanced CT Scan Tomography</h1>
+            <p class="lead-text">Unlike standard 2D imaging, Computed Tomography (CT) generates massive volumetric datasets containing hundreds of cross-sectional slices. AarogyamScanAI deploys state-of-the-art 3D Convolutional Neural Networks (3D-CNNs) to analyze these multi-planar DICOM series in real-time. We isolate hyperdense hemorrhages, complex oncological masses, and pulmonary embolisms with voxel-perfect precision, acting as a flawless safety net for overwhelmed neuro-radiologists.</p>
+            <div class="hero-actions">
+                <a href="#" class="btn-primary btn-large hover-glow">
+                    <i class="fas fa-layer-group"></i> Upload DICOM Series
+                </a>
+                <a href="#architecture" class="btn-secondary">Explore 3D Architecture</a>
+            </div>
+        </div>
+        <div class="hero-image float-animation">
+            [Image of a 3D medical CT scan reconstruction of a human brain and skull]
+            <img src="{{ url_for('static', filename='img/ct_hero.jpg') }}" alt="AI Volumetric CT Scan Analysis" onerror="this.src='https://images.unsplash.com/photo-1530497610245-94d3c16cda28?auto=format&fit=crop&q=80&w=800';">
+        </div>
+    </section>
+
+    <section class="stats-section reveal fade-in">
+        <div class="stat-box">
+            <div class="stat-number" data-target="500">0</div><span class="stat-symbol">+</span>
+            <p>Slices Processed per Second</p>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number" data-target="99">0</div><span class="stat-symbol">.2%</span>
+            <p>Hemorrhage Detection Accuracy</p>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number" data-target="3">0</div><span class="stat-symbol">D</span>
+            <p>Voxel Spatial Reconstruction</p>
+        </div>
+    </section>
+
+    <section class="diseases-section reveal slide-up">
+        <div class="section-header">
+            <h2>Critical Volumetric Pathologies</h2>
+            <p>Our 3D engine is specifically trained to detect life-threatening anomalies where human visual fatigue often leads to critical diagnostic omissions.</p>
+        </div>
+        <div class="cards-grid">
+            <div class="disease-card hover-lift">
+                <div class="icon"><i class="fas fa-brain"></i></div>
+                <h3>Intracranial Hemorrhages (ICH)</h3>
+                <div class="disease-details">
+                    <p><strong>Pathological Vector:</strong> Ruptured cerebral aneurysms or severe cranial trauma leading to epidural, subdural, or subarachnoid bleeding.</p>
+                    <p><strong>AI Intervention:</strong> In stroke protocols, "Time is Brain." Our neural network detects hyperdense blood pooling within milliseconds, flagging critical neuro-emergencies before the patient even leaves the scanner.</p>
+                </div>
+            </div>
+            <div class="disease-card hover-lift">
+                <div class="icon"><i class="fas fa-lungs"></i></div>
+                <h3>Pulmonary Embolism (PE)</h3>
+                <div class="disease-details">
+                    <p><strong>Pathological Vector:</strong> Arterial blockages within the pulmonary vasculature, typically originating from Deep Vein Thrombosis (DVT).</p>
+                    <p><strong>AI Intervention:</strong> Tracing the complex, branching structure of the pulmonary arteries across hundreds of CT Angiography slices is grueling. Our 3D-CNN highlights filling defects automatically, preventing fatal cardiac arrests.</p>
+                </div>
+            </div>
+            <div class="disease-card hover-lift">
+                <div class="icon"><i class="fas fa-dna"></i></div>
+                <h3>Oncological Mass Staging</h3>
+                <div class="disease-details">
+                    <p><strong>Pathological Vector:</strong> Malignant cellular proliferation forming complex, irregular tumors across hepatic, renal, or pulmonary systems.</p>
+                    <p><strong>AI Intervention:</strong> Utilizing advanced U-Net segmentation, AarogyamScanAI calculates the exact 3D volume, diameter, and density (Hounsfield Units) of the tumor, providing oncologists with objective data for surgical planning.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="problem-section reveal slide-right">
+        <div class="section-header">
+            <h2>The Volumetric Data Crisis</h2>
+            <p>Why modern radiology desperately requires AI assistance for CT Scans.</p>
+        </div>
+        <div class="timeline-container">
+            <div class="timeline-item reveal slide-left">
+                <div class="timeline-icon pulse-animation"><i class="fas fa-database"></i></div>
+                <div class="timeline-content">
+                    <h3>A. The Data Avalanche</h3>
+                    <p>A modern 256-slice CT scanner generates massive datasets (often 1000+ images per patient). Radiologists are forced to scroll through endless slices, leading to severe visual and cognitive overload.</p>
+                </div>
+            </div>
+            <div class="timeline-item reveal slide-right">
+                <div class="timeline-icon pulse-animation"><i class="fas fa-eye-slash"></i></div>
+                <div class="timeline-content">
+                    <h3>B. The "Satisfaction of Search" Error</h3>
+                    <p>When a radiologist finds one major abnormality (e.g., a massive tumor), the brain often unconsciously stops looking for secondary issues (e.g., a tiny micro-fracture). AI suffers from no such psychological biases; it scans every voxel uniformly.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="architecture" class="architecture-section reveal fade-in">
+        <div class="section-header">
+            <h2>3D Convolutional Architecture</h2>
+            <p>From raw DICOM ingestion to Volumetric Heatmaps.</p>
+        </div>
+        <div class="architecture-flow">
+            <div class="arch-step">
+                <div class="step-num">01</div>
+                <h4>DICOM Series Ingestion</h4>
+                <p>The system parses the multi-frame DICOM file, extracting metadata and applying strict Hounsfield Unit (HU) windowing (e.g., Brain Window, Bone Window) to isolate specific tissue densities.</p>
+            </div>
+            <div class="arch-flow-arrow"><i class="fas fa-arrow-right"></i></div>
+            <div class="arch-step">
+                <div class="step-num">02</div>
+                <h4>Spatial 3D-CNN Processing</h4>
+                <p>Unlike 2D networks, our 3D-CNN filters move across the X, Y, and Z axes. This allows the AI to understand the continuous spherical shape of a tumor, rather than viewing it as disconnected flat circles.</p>
+            </div>
+            <div class="arch-flow-arrow"><i class="fas fa-arrow-right"></i></div>
+            <div class="arch-step">
+                <div class="step-num">03</div>
+                <h4>Voxel Segmentation</h4>
+                <p>The final layer outputs a mathematically precise 3D bounding box and a color-coded heatmap overlay, guiding the surgeon's scalpel with sub-millimeter accuracy.</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script src="{{ url_for('static', filename='js/ctscan.js') }}"></script>
+{% endblock %}

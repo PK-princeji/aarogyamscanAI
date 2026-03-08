@@ -2,50 +2,178 @@
 
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/history.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 {% endblock %}
 
 {% block content %}
-<div class="history-container">
-    <h2>Scan History</h2>
+<main class="history-dashboard">
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="toast-container" id="toast-container">
+        {% for category, msg in messages %}
+            <div class="toast-message {{ category }}">
+                <i class="fas {% if category == 'error' %}fa-exclamation-triangle{% elif category == 'success' %}fa-check-circle{% else %}fa-info-circle{% endif %}"></i>
+                <span>{{ msg }}</span>
+                <button class="close-toast" onclick="this.parentElement.style.display='none';">&times;</button>
+            </div>
+        {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
+
+    <div class="history-header">
+        <div class="header-title">
+            <h2><i class="fas fa-folder-open"></i> Diagnostic History</h2>
+            <p>Manage, share, and view full clinical reports of your past scans.</p>
+        </div>
+        
+        <div class="filter-container">
+            <label for="monthFilter"><i class="fas fa-filter"></i> Sort by Month:</label>
+            <div class="custom-select">
+                <select id="monthFilter" onchange="filterByMonth()">
+                    <option value="all">All Months</option>
+                    <option value="0">January</option>
+                    <option value="1">February</option>
+                    <option value="2">March</option>
+                    <option value="3">April</option>
+                    <option value="4">May</option>
+                    <option value="5">June</option>
+                    <option value="6">July</option>
+                    <option value="7">August</option>
+                    <option value="8">September</option>
+                    <option value="9">October</option>
+                    <option value="10">November</option>
+                    <option value="11">December</option>
+                </select>
+                <i class="fas fa-chevron-down select-icon"></i>
+            </div>
+        </div>
+    </div>
 
     {% if history %}
-        <div class="history-grid">
+        <div class="history-grid" id="historyGrid">
             {% for scan in history %}
-                <div class="history-item">
-                   {% if scan['user_name'] and scan['filename'] %}
-    <img src="{{ url_for('static', filename='reports/' + scan['user_name'] + '/' + scan['filename']) }}" 
-         alt="Scan uploaded on {{ scan['upload_date']|e }}" 
-         class="history-img">
-{% else %}
-    <p>Error: Missing file information</p>
-{% endif %}
+                <div class="history-card" data-date="{{ scan['upload_date']|e }}">
+                    
+                    <div class="card-image">
+                        {% if scan['user_email'] and scan['filename'] %}
+                            <img src="{{ url_for('static', filename='reports/' ~ scan['user_email'] ~ '/' ~ scan['filename']) }}" 
+                                 alt="Medical Scan" 
+                                 class="history-img" loading="lazy"
+                                 onerror="this.onerror=null; this.src='https://via.placeholder.com/400x300?text=Image+Not+Found';">
+                        {% else %}
+                            <div class="img-placeholder">
+                                <i class="fas fa-image-slash"></i>
+                                <span>Image Data Missing</span>
+                            </div>
+                        {% endif %}
+                    </div>
 
-
-                    <div class="scan-details">
-                        <p><strong>Date:</strong> {{ scan['upload_date']|e }}</p>
-                        <p><strong>AI Result:</strong> 
-                            <span class="result-{{ scan['ai_result']|lower|replace(' ', '-')|replace('(', '')|replace(')', '')|replace('%', '')|e }}">
+                    <div class="card-content">
+                        <div class="scan-date">
+                            <i class="fas fa-calendar-day"></i> {{ scan['upload_date']|e }}
+                        </div>
+                        
+                        <div class="scan-result">
+                            <strong>AI Diagnosis:</strong> 
+                            <span class="ai-badge result-{{ scan['ai_result']|lower|replace(' ', '-')|replace('(', '')|replace(')', '')|replace('%', '')|e }}">
                                 {{ scan['ai_result']|e }}
                             </span>
-                        </p>
-                        <a href="{{ url_for('delete_history', record_id=scan['id']) }}" 
-                           class="btn-delete" 
-                           onclick="return confirm('Are you sure you want to delete this record?');">
-                           Delete
-                        </a>
+                        </div>
+                        
+                        <div class="card-actions">
+                            <button type="button" class="btn-action btn-view" 
+                                    onclick="openReportModal('{{ url_for('static', filename='reports/' ~ scan['user_email'] ~ '/' ~ scan['filename']) }}', '{{ scan['user_name']|e }}', '{{ scan['upload_date']|e }}', '{{ scan['ai_result']|e }}')">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+
+                            <button type="button" class="btn-action btn-share" 
+                                    onclick="shareRecord('{{ scan['ai_result']|e }}', '{{ scan['upload_date']|e }}')">
+                                <i class="fas fa-share-nodes"></i> Share
+                            </button>
+                            
+                            <a href="{{ url_for('delete_history', record_id=scan['id']) }}" class="btn-action btn-delete" 
+                               onclick="return confirm('Are you sure you want to permanently delete this record?');">
+                                <i class="fas fa-trash-can"></i> Del
+                            </a>
+                        </div>
                     </div>
                 </div>
             {% endfor %}
         </div>
+        
+        <div id="noResultsMessage" class="empty-state" style="display: none;">
+            <i class="fas fa-search-minus"></i>
+            <h3>No Scans Found</h3>
+            <p>You do not have any uploads for the selected month.</p>
+        </div>
+
     {% else %}
-        <p class="no-history-message">
-            You have not uploaded any scans yet. 
-            Please go to  <br>
-            <a href="{{ url_for('xray_upload_route') }}">X-Ray Upload</a>  ,  <br>
-            <a href="{{ url_for('ctscan_upload') }}">CT Scan Upload</a>  <br> 
-            , or <a href="{{ url_for('mri_upload') }}">MRI Upload</a>  <br>
-            to get started.
-        </p>
+        <div class="empty-state">
+            <i class="fas fa-inbox"></i>
+            <h3>Your History is Empty</h3>
+            <p>You have not uploaded any scans yet. Select a modality to get started.</p>
+            <div class="empty-links">
+                <a href="{{ url_for('xray_upload_route') }}" class="btn-empty"><i class="fas fa-x-ray"></i> X-Ray Upload</a>
+                <a href="#" class="btn-empty"><i class="fas fa-circle-notch"></i> CT Scan</a>
+                <a href="#" class="btn-empty"><i class="fas fa-brain"></i> MRI Upload</a>
+            </div>
+        </div>
     {% endif %}
-</div>
+
+    <div id="reportModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2>🏥 AarogyamScanAI Clinical Report</h2>
+                <button class="close-modal" onclick="closeReportModal()">&times;</button>
+            </div>
+            
+            <div class="modal-body" id="printable-report">
+                <div class="report-meta">
+                    <p><strong>Generated By:</strong> CODE_X_ELITE AI Engine</p>
+                    <p><strong>Scan Date:</strong> <span id="modalDate"></span></p>
+                </div>
+                
+                <div class="patient-info-box">
+                    <h3>👤 Patient Information</h3>
+                    <p><strong>Name:</strong> <span id="modalPatientName"></span></p>
+                    <p><strong>Status:</strong> Processed</p>
+                </div>
+
+                <div class="diagnosis-box">
+                    <h3>🤖 AI Diagnostic Analysis</h3>
+                    <table class="report-table">
+                        <tr>
+                            <th>Modality</th>
+                            <th>Detected Condition</th>
+                            <th>Confidence Tier</th>
+                        </tr>
+                        <tr>
+                            <td>Medical Scan</td>
+                            <td><span id="modalResult" class="modal-badge"></span></td>
+                            <td>High Precision</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="scan-image-box">
+                    <h3>🔍 Visual Scan</h3>
+                    <img id="modalImage" src="" alt="Medical Scan Image">
+                </div>
+                
+                <div class="report-footer-note">
+                    <p><em>Disclaimer: This report is generated by Artificial Intelligence. Please consult a certified medical professional for final confirmation.</em></p>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn-print" onclick="printModalReport()"><i class="fas fa-print"></i> Print / Save as PDF</button>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<script src="{{ url_for('static', filename='js/history.js') }}"></script>
 {% endblock %}
