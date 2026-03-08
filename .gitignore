@@ -1,1 +1,6 @@
+*.db
+static/uploads/
+static/reports/
+tempCodeRunnerFile.*
+__pycache__/
 dataset/
