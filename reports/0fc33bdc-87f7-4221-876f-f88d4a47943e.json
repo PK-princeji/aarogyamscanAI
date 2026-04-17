@@ -1,0 +1,18 @@
+{
+  "id": "0fc33bdc-87f7-4221-876f-f88d4a47943e",
+  "patient": {
+    "name": "pahaman",
+    "age": "45",
+    "gender": "Male",
+    "address": "cvcb"
+  },
+  "prediction": {
+    "label": "Normal",
+    "probability": 0.0026732299011200666,
+    "confidence": 0.9973267700988799
+  },
+  "paths": {
+    "input_image": "D:/final_year_project/code_X_Elite/aarogyamScanAi\\reports\\0fc33bdc-87f7-4221-876f-f88d4a47943e_input.png",
+    "gradcam_image": "D:/final_year_project/code_X_Elite/aarogyamScanAi\\reports\\0fc33bdc-87f7-4221-876f-f88d4a47943e_gradcam.png"
+  }
+}

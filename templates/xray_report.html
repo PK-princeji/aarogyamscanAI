@@ -2,79 +2,93 @@
 
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/report.css') }}">
+<style>
+    .detected { color: #e74c3c; font-weight: bold; }
+    .negative { color: #27ae60; }
+    .diagnosis-table th { background-color: #2980b9; color: white; padding: 12px; } /* Medical Blue theme for X-Ray */
+    .diagnosis-table td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+    
+    /* Print करते वक़्त बटन और नेवबार छुपाने के लिए */
+    @media print {
+        .action-buttons { display: none !important; }
+        .navbar { display: none !important; }
+    }
+</style>
 {% endblock %}
 
 {% block content %}
-<div class="report-container">
+<div class="report-container" style="max-width: 800px; margin: 40px auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
 
-    <!-- Header -->
-    <div class="report-header">
+    <div class="report-header" style="text-align: center; border-bottom: 2px solid #2980b9; padding-bottom: 20px; margin-bottom: 20px;">
         <div class="hospital-logo">
-            <h1>🏥 AAROGYAM SCAN AI</h1>
-            <p>Chest X-Ray Pneumonia Detection System</p>
+            <h1 style="color: #2980b9; margin-bottom: 5px;">🩻 AAROGYAM SCAN AI</h1>
+            <p style="color: #555; font-size: 1.1rem; font-weight: bold;">Advanced Chest X-Ray Diagnostic System</p>
         </div>
-        <div class="report-meta">
-            <p><b>Report ID:</b> {{ report.report_id }}</p>
-            <p><b>Generated:</b> {{ report.generated_at }}</p>
-            <p><b>AI Version:</b> {{ report.ai_version }}</p>
-        </div>
-    </div>
-
-    <!-- Patient Info -->
-    <div class="section patient-info-section">
-        <h3 class="section-title">👤 Patient Information</h3>
-        <div class="patient-card">
-            <div class="info-row"><span class="info-label">Name:</span> <span class="info-value">{{ report.patient_info.name }}</span></div>
-            <div class="info-row"><span class="info-label">Age:</span> <span class="info-value">{{ report.patient_info.age }}</span></div>
-            <div class="info-row"><span class="info-label">Gender:</span> <span class="info-value">{{ report.patient_info.gender }}</span></div>
-            <div class="info-row"><span class="info-label">Address:</span> <span class="info-value">{{ report.patient_info.address }}</span></div>
+        <div class="report-meta" style="display: flex; justify-content: space-between; margin-top: 20px; font-size: 0.9rem; color: #666;">
+            <p><b>Report ID:</b> {{ report_id }}</p>
+            <p><b>Generated:</b> {{ generated_at }}</p>
+            <p><b>AI Version:</b> Diagnostic Module v2.0</p>
         </div>
     </div>
 
-    <!-- AI Diagnostic Analysis -->
-<div class="section diagnosis-section">
-    <h3 class="section-title">🤖 AI Diagnostic Analysis</h3>
-    <table class="diagnosis-table">
-        <tr>
-            <th>Disease</th>
-            <th>Status</th>
-            <th>Probability</th>
-            <th>Confidence</th>
-        </tr>
-        <tr>
-            <td>Pneumonia</td>
-            <td class="{{ report.analysis.label|lower }}">{{ report.analysis.label }}</td>
-            <td>{{ report.analysis.probability }}</td>
-            <td>{{ report.analysis.confidence }}</td>
-        </tr>
-    </table>
-</div>
-    <!-- Visual Analysis -->
-    <div class="section images-section">
-        <h3 class="section-title">🔍 Visual Analysis</h3>
-        <div class="images-container">
-            {% if report.images.input %}
-            <div class="image-box">
-                <img src="{{ url_for('download_report', report_id=report.report_id) }}" alt="X-Ray Image">
-                <div class="image-caption">Input X-Ray</div>
+    <div class="section patient-info-section" style="margin-bottom: 30px;">
+        <h3 class="section-title" style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px;">👤 Patient Information</h3>
+        <div class="patient-card" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: #f4f9fc; padding: 15px; border-radius: 8px; border-left: 4px solid #2980b9;">
+            <div class="info-row"><span style="color: #777;">Name:</span> <b>{{ p_name }}</b></div>
+            <div class="info-row"><span style="color: #777;">Age:</span> <b>{{ p_age }}</b></div>
+            <div class="info-row"><span style="color: #777;">Gender:</span> <b>{{ p_gender }}</b></div>
+            <div class="info-row"><span style="color: #777;">Address:</span> <b>{{ p_address }}</b></div>
+        </div>
+    </div>
+
+    <div class="section diagnosis-section" style="margin-bottom: 30px;">
+        <h3 class="section-title" style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px;">🤖 AI Diagnostic Analysis</h3>
+        <table class="diagnosis-table" style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+            <thead>
+                <tr>
+                    <th>Disease</th>
+                    <th>Status</th>
+                    <th>Probability</th>
+                    <th>Confidence</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in result.all_predictions %}
+                <tr>
+                    <td>{{ item.disease }}</td>
+                    <td class="{% if item.disease == result.diagnosis %}detected{% else %}negative{% endif %}">
+                        {% if item.disease == result.diagnosis %} Detected {% else %} Negative {% endif %}
+                    </td>
+                    <td>{{ "%.4f"|format(item.probability) }}</td>
+                    <td>{{ item.confidence }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <div style="margin-top: 20px; padding: 15px; background: #f4f9fc; border-left: 5px solid #2980b9; border-radius: 5px;">
+            <strong>Final Conclusion:</strong> The AI model has detected <b style="color: #2980b9; font-size: 1.1rem;">{{ result.diagnosis }}</b> with <b>{{ result.confidence }}</b> confidence.
+        </div>
+    </div>
+
+    <div class="section images-section" style="margin-bottom: 30px;">
+        <h3 class="section-title" style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px;">🔍 Visual Analysis</h3>
+        <div class="images-container" style="text-align: center; margin-top: 15px;">
+            <div class="image-box" style="display: inline-block;">
+                <img src="/{{ img_path.replace('\\', '/') }}" alt="Scanned X-Ray" style="max-width: 350px; max-height: 350px; object-fit: contain; border: 3px solid #2980b9; border-radius: 8px;">
+                <div class="image-caption" style="margin-top: 10px; font-weight: bold; color: #555;">Input X-Ray Scan</div>
             </div>
-            {% else %}
-            <p>No image available</p>
-            {% endif %}
         </div>
     </div>
 
-    <!-- Action Buttons -->
-    <div class="action-buttons">
-        <a href="{{ url_for('download_report', report_id=report.report_id) }}" class="btn btn-primary">Download X-Ray</a>
-        <a href="{{ url_for('download_json', report_id=report.report_id) }}" class="btn btn-secondary">Download JSON</a>
-        <button onclick="window.print()" class="btn btn-outline">🖨️ Print Report</button>
+    <div class="action-buttons" style="margin-top: 30px; display: flex; gap: 20px; justify-content: center;">
+        <button onclick="window.print()" class="btn" style="padding: 12px 25px; cursor: pointer; border: 2px solid #2980b9; background: transparent; color: #2980b9; border-radius: 5px; font-weight: bold; margin-right: 15px;">🖨️ Print Report</button>
+        <a href="/" class="btn" style="text-decoration: none; padding: 12px 25px; background: #eee; color: #333; border-radius: 5px; font-weight: bold;">🏠 Back to Home</a>
     </div>
 
-    <!-- Footer -->
-    <div class="report-footer">
+    <div class="report-footer" style="margin-top: 40px; border-top: 1px solid #ccc; padding-top: 20px; text-align: center; color: #777; font-size: 0.9rem;">
         <h4>Note:</h4>
-        <p>This report is generated by AI and should be reviewed by a certified radiologist for diagnosis confirmation.</p>
+        <p>This report is generated by AI (CNN Architecture) and should be reviewed by a certified Pulmonologist or Radiologist for final diagnosis confirmation.</p>
     </div>
 
 </div>

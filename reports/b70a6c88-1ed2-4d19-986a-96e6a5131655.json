@@ -1,0 +1,18 @@
+{
+  "id": "b70a6c88-1ed2-4d19-986a-96e6a5131655",
+  "patient": {
+    "name": "radha",
+    "age": "15",
+    "gender": "Male",
+    "address": "cocola"
+  },
+  "prediction": {
+    "label": "Normal",
+    "probability": 0.0005239566671662033,
+    "confidence": 0.9994760433328338
+  },
+  "paths": {
+    "input_image": "D:/final_year_project/code_X_Elite/aarogyamScanAi\\reports\\b70a6c88-1ed2-4d19-986a-96e6a5131655_input.png",
+    "gradcam_image": "D:/final_year_project/code_X_Elite/aarogyamScanAi\\reports\\b70a6c88-1ed2-4d19-986a-96e6a5131655_gradcam.png"
+  }
+}

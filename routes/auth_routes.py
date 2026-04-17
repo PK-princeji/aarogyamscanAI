@@ -47,7 +47,7 @@ def login():
         user = cursor.fetchone()
         db.close()
 
-        if user and check_password_hash(user["password"], password):
+        if user and check_password_hash(user["pass_hash"], password):
             if user["is_verified"] == 0:
                 flash("Please verify your account via OTP before login.", "error")
                 session["pending_email"] = email
@@ -103,10 +103,11 @@ def register():
         otp_expires = datetime.now() + timedelta(minutes=10)
 
         try:
+            # यहाँ हमने 'pass_hash' को भी शामिल कर लिया है
             cursor.execute("""
-                INSERT INTO users (name, email, password, phone, otp_code, otp_expires)
-                VALUES (?, ?, ?, ?, ?, ?)
-            """, (name, email, generate_password_hash(password), phone, otp, otp_expires))
+                INSERT INTO users (name, email, password, pass_hash, phone, otp_code, otp_expires)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            """, (name, email, password, generate_password_hash(password), phone, otp, otp_expires))
             db.commit()
             print(f"[DEBUG] User {email} inserted into DB with OTP {otp}")
         except Exception as e:

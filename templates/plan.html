@@ -1,0 +1,623 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/plan.css') }}">
+    <style>
+        /* Common Styling from previous response */
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background: #f4f7fb;
+            color: #222;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        .slide-container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 30px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            opacity: 0;
+            transform: translateY(50px);
+            animation: slideUp 1s ease forwards;
+        }
+        h1 {
+            text-align: center;
+            color: #004aad;
+            font-size: 28px;
+            border-bottom: 3px solid #004aad;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            animation: fadeIn 1.2s ease;
+        }
+        h2 {
+            background: linear-gradient(90deg, #004aad, #0077ff);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 20px;
+            margin-top: 25px;
+            opacity: 0;
+            transform: translateX(-50px);
+            animation: slideIn 0.8s ease forwards;
+        }
+        .section-description {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+            color: #555;
+            padding: 0 15px;
+        }
+        .goal {
+            background: #e8f0fe;
+            padding: 15px;
+            border-left: 5px solid #004aad;
+            margin: 10px 0;
+            font-size: 16px;
+            animation: fadeIn 1s ease;
+        }
+        ul {
+            margin-left: 20px;
+            line-height: 1.6;
+            font-size: 15px;
+            animation: fadeIn 1s ease;
+            padding-left: 0;
+        }
+        li {
+            margin-bottom: 8px;
+            list-style-type: none;
+        }
+        li::before {
+            content: '▪';
+            color: #004aad;
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            animation: zoomIn 1s ease;
+            text-align: left;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 12px;
+            font-size: 14px;
+        }
+        th {
+            background: #004aad;
+            color: white;
+        }
+        .phase-box {
+            margin-top: 20px;
+            padding: 20px;
+            border: 2px solid #004aad;
+            border-radius: 10px;
+            background: #f9fcff;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: slideUp 1s ease forwards;
+            animation-delay: 0.4s;
+        }
+        strong {
+            color: #004aad;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            .slide-container {
+                width: 95%;
+                padding: 15px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+            h2 {
+                font-size: 18px;
+            }
+            th, td {
+                font-size: 12px;
+                padding: 8px;
+            }
+        }
+
+        /* Language Switcher Styling */
+        .language-switcher {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .language-switcher button {
+            background: #004aad;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .language-switcher button:hover {
+            background: #0077ff;
+            transform: scale(1.05);
+        }
+        .language-switcher button.active {
+            background: #0077ff;
+            font-weight: bold;
+            transform: scale(1.1);
+        }
+        #hindi-content {
+            display: none; /* Initially hide Hindi content */
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const slides = document.querySelectorAll(".phase-box");
+            let delay = 0.5;
+            slides.forEach(slide => {
+                slide.style.animationDelay = `${delay}s`;
+                delay += 0.3;
+            });
+            // Initial call to set active button
+            setActiveLangButton('en');
+        });
+
+        function toggleLanguage(lang) {
+            const englishContent = document.getElementById('english-content');
+            const hindiContent = document.getElementById('hindi-content');
+
+            if (lang === 'en') {
+                englishContent.style.display = 'block';
+                hindiContent.style.display = 'none';
+                setActiveLangButton('en');
+            } else if (lang === 'hi') {
+                englishContent.style.display = 'none';
+                hindiContent.style.display = 'block';
+                setActiveLangButton('hi');
+            }
+        }
+
+        function setActiveLangButton(lang) {
+            const buttons = document.querySelectorAll('.language-switcher button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+            document.getElementById('lang-' + lang).classList.add('active');
+        }
+    </script>
+{% endblock %}
+
+{% block content %}
+<div class="slide-container">
+    <div class="language-switcher">
+        <button id="lang-en" onclick="toggleLanguage('en')">English</button>
+        <button id="lang-hi" onclick="toggleLanguage('hi')">हिन्दी</button>
+    </div>
+
+    <!-- English Content -->
+    <div id="english-content">
+        <h1>Aarogyam ScanAI: Detailed Project Plan (Independent Phases)</h1>
+
+        <div class="section-description">
+            <p>This plan divides the project into six self-contained modules. Each module can be developed and tested independently before final integration, allowing for parallel work and clear progress tracking.</p>
+        </div>
+
+        <!-- Phase 1 -->
+        <div class="phase-box">
+            <h2>📌 Phase 1: Chest X-Ray AI Module Development</h2>
+            <div class="goal"><strong>Goal:</strong> To develop a complete, standalone AI model that can analyze chest X-ray images for various lung diseases.</div>
+            <p><strong>Team Roles:</strong></p>
+            <ul>
+                <li><strong>Ankit (Data Acquisition & Preprocessing Lead):</strong> Identify, download, and organize large datasets like NIH Chest X-ray and RSNA Pneumonia Detection Challenge. Handle DICOM, PNG, JPG files using `pydicom` and `PIL`.</li>
+                <li><strong>Gautam (Preprocessing Specialist):</strong> Implement preprocessing techniques like resizing images to 224x224 pixels, converting to grayscale, noise reduction, and data augmentation. Split data into training, validation, and testing sets.</li>
+                <li><strong>Rahul (Model Development Lead):</strong> Design and implement a suitable CNN architecture (e.g., ResNet-101) for chest X-ray analysis. Train the model and perform hyperparameter tuning.</li>
+                <li><strong>Prince (Prediction & Evaluation Specialist):</strong> Use the trained model to make disease predictions. Evaluate the model's performance using metrics like Accuracy, ROC-AUC, Sensitivity, and Specificity. Save the model for reuse (in HDF5 or SavedModel format).</li>
+            </ul>
+            <p><strong>Detailed Steps:</strong></p>
+            <ol>
+                <li>Identify and acquire necessary datasets (NIH Chest X-ray, RSNA Pneumonia).</li>
+                <li>Convert various image formats (DICOM, PNG, JPG) to a standard format.</li>
+                <li>Develop the image preprocessing pipeline (resizing, normalization, noise reduction).</li>
+                <li>Expand the dataset using data augmentation techniques.</li>
+                <li>Select and implement the CNN model architecture.</li>
+                <li>Train the model for multi-class classification (Normal, Pneumonia, TB, Pneumothorax, Cardiomegaly, Lung Cancer nodules).</li>
+                <li>Rigorously evaluate and improve the model's performance.</li>
+                <li>Save the final model in a portable format.</li>
+            </ol>
+            <p><strong>Outcome:</strong> A standalone Python module containing a trained AI model (.h5 or .pb file) and a function that takes a chest X-ray image path as input and returns the disease prediction (label, confidence score) as a structured dictionary. This module can function entirely on its own.</p>
+            <p><strong>Key Technologies & Tools:</strong> Python, NumPy, Pandas, pydicom, PIL, OpenCV, TensorFlow/Keras, PyTorch, CNN, ResNet-101.</p>
+        </div>
+
+        <!-- Phase 2 -->
+        <div class="phase-box">
+            <h2>📌 Phase 2: Brain CT/MRI AI Module Development</h2>
+            <div class="goal"><strong>Goal:</strong> To create a separate, specialized AI model to detect brain conditions (e.g., hemorrhage, stroke, tumor) from CT and MRI scans.</div>
+            <p><strong>Team Roles:</strong></p>
+            <ul>
+                <li><strong>Ankit (Data Handling Lead):</strong> Find and organize brain imaging datasets like LIDC-IDRI, BraTS, and ISLES. Use `PyDicom` and `NiBabel` to handle DICOM/NIfTI files and convert them to a suitable format for the AI model.</li>
+                <li><strong>Gautam (Preprocessing Specialist):</strong> Implement special preprocessing techniques for brain scans (e.g., slice normalization, skull stripping, 3D volume handling).</li>
+                <li><strong>Rahul (Model Development Lead):</strong> Design and implement 2D/3D CNN architectures (e.g., 3D ResNet, U-Net). Train and optimize the model.</li>
+                <li><strong>Prince (Prediction & Evaluation Specialist):</strong> Use the trained model to predict brain conditions. Evaluate the model for both classification (e.g., hemorrhage, stroke) and segmentation (e.g., tumor).</li>
+            </ul>
+            <p><strong>Detailed Steps:</strong></p>
+            <ol>
+                <li>Identify and acquire brain imaging datasets (RSNA, ISLES, BraTS).</li>
+                <li>Prepare DICOM/NIfTI data for preprocessing and model input.</li>
+                <li>Develop a preprocessing pipeline specific to brain scans.</li>
+                <li>Select and implement 2D and 3D CNN model architectures.</li>
+                <li>Train the model to detect various brain conditions (e.g., Hemorrhage, Ischemic Stroke, Atrophy, Brain Tumor lesion).</li>
+                <li>Evaluate model performance using classification and segmentation metrics (e.g., Dice Coefficient).</li>
+                <li>Save the final model.</li>
+            </ol>
+            <p><strong>Outcome:</strong> A standalone Python module containing a trained AI model and a function that takes a brain scan image path as input and returns the prediction (condition, severity, segmentation mask if applicable) as a structured dictionary. This module will function independently of the chest X-ray module.</p>
+            <p><strong>Key Technologies & Tools:</strong> Python, PyDicom, NiBabel, OpenCV, PyTorch, MONAI, CNN, 2D/3D ResNet, U-Net.</p>
+        </div>
+
+        <!-- Phase 3 -->
+        <div class="phase-box">
+            <h2>📌 Phase 3: Core UI & Frontend Dashboard Development</h2>
+            <div class="goal"><strong>Goal:</strong> To build a fully functional and appealing user interface (UI) for the web application, including a home page, upload form, history page, login, and registration.</div>
+            <p><strong>Team Roles:</strong></p>
+            <ul>
+                <li><strong>Prince (UI/UX Design & HTML/CSS Lead):</strong> Design wireframes and mockups for all web pages (Home, About, Plan, Upload, History, Login, Register). Develop the HTML structure and CSS styling (all related `.css` files), ensuring a responsive and user-friendly design.</li>
+                <li><strong>Rahul (Frontend JavaScript & Interactivity):</strong> Write client-side JavaScript to handle user interactions like menu toggling, basic form validation, and placeholders for dynamic content display. Set up all navigation links (`url_for`) to the correct Flask routes.</li>
+            </ul>
+            <p><strong>Detailed Steps:</strong></p>
+            <ol>
+                <li>Create the UI/UX design for all main pages of the website.</li>
+                <li>Develop all HTML templates, including `base.html`.</li>
+                <li>Create dedicated CSS files for each page (e.g., `style.css`, `about.css`, `plan.css`, `login.css`, `register.css`, `history.css`) and link them.</li>
+                <li>Implement JavaScript for mobile menu toggling and basic client-side validation on form inputs.</li>
+                <li>Properly configure all navigation links using Flask's `url_for` function.</li>
+            </ol>
+            <p><strong>Outcome:</strong> A set of static HTML/CSS/JS files representing the complete visual and interactive frontend. This module will be visually complete and handle basic user interactions but will not yet be connected to a backend or AI model.</p>
+            <p><strong>Key Technologies & Tools:</strong> HTML5, CSS3, JavaScript (Vanilla JS), Bootstrap (if used), Jinja2 templating.</p>
+        </div>
+
+        <!-- Phase 4 -->
+        <div class="phase-box">
+            <h2>📌 Phase 4: Backend & Database System</h2>
+            <div class="goal"><strong>Goal:</strong> To develop the core server-side logic for user authentication, session management, and secure data storage.</div>
+            <p><strong>Team Roles:</strong></p>
+            <ul>
+                <li><strong>Ankit (Database Design & Implementation Lead):</strong> Set up the SQLite database (`user_data.db`). Design and implement the detailed database schema for tables like `users` and `history`, ensuring data integrity and relationships.</li>
+                <li><strong>Rahul (Flask Routes & API Development):</strong> Establish the Flask application structure. Create all necessary API endpoints for user registration, login, logout, and other required data interactions.</li>
+                <li><strong>Prince (User Authentication & Session Management):</strong> Use Flask's `session` object to securely manage user sessions. Implement password hashing using a library like `werkzeug.security` to store passwords securely.</li>
+            </ul>
+            <p><strong>Detailed Steps:</strong></p>
+            <ol>
+                <li>Initial setup and configuration of the Flask application.</li>
+                <li>Create utility functions for SQLite database connections (`get_db`, `close_connection`).</li>
+                <li>Develop the database initialization script to create the `users` and `history` tables.</li>
+                <li>Implement the Flask routes and logic for user registration (`/register`) and login (`/login`).</li>
+                <li>Implement session management for login status and user-specific data.</li>
+                <li>Define the API endpoints to receive and store data from the future AI and report modules.</li>
+            </ol>
+            <p><strong>Outcome:</strong> A fully functional Flask server that handles user registration, login/logout, and creates and accesses database tables. This module will be ready to receive and securely store data from other modules.</p>
+            <p><strong>Key Technologies & Tools:</strong> Python, Flask, SQLite3, `werkzeug.security`, `g` (Flask context globals).</p>
+        </div>
+
+        <!-- Phase 5 -->
+        <div class="phase-box">
+            <h2>📌 Phase 5: Report Generation & Visualization Service</h2>
+            <div class="goal"><strong>Goal:</strong> To create a standalone service for generating diagnostic reports and visual heatmaps based on AI predictions.</div>
+            <p><strong>Team Roles:</strong></p>
+            <ul>
+                <li><strong>Gautam (Heatmap Visualization Lead):</strong> Implement the Grad-CAM (Gradient-weighted Class Activation Mapping) technique. This will automatically highlight affected regions on a scan, providing visual explanation for the AI's prediction.</li>
+                <li><strong>Ankit (Report Generation Specialist):</strong> Use a library like `ReportLab` or `FPDF` to create professional, downloadable PDF reports that include the AI predictions and the generated heatmap. The report will also contain structured textual diagnostic suggestions.</li>
+            </ul>
+            <p><strong>Detailed Steps:</strong></p>
+            <ol>
+                <li>Implement the Grad-CAM algorithm which takes an image and model output as input.</li>
+                <li>Develop the functionality to overlay the generated heatmap onto the original scan image.</li>
+                <li>Design a PDF report template that includes the AI results, heatmap image, upload date, and other relevant information.</li>
+                <li>Add logic to make the report multilingual (e.g., using Google Translate API or with pre-translated strings).</li>
+                <li>Ensure the report is clear, concise, and easy to understand.</li>
+            </ol>
+            <p><strong>Outcome:</strong> A standalone Python module containing functions that take AI prediction data and an original image as input, and output a heatmap image file (.png) and a downloadable PDF report file (.pdf). This module can be developed and tested with dummy data without waiting for the completion of the other AI modules.</p>
+            <p><strong>Key Technologies & Tools:</strong> Python, OpenCV, Matplotlib, ReportLab/FPDF, Grad-CAM libraries (e.g., `tf-keras-vis` or custom implementation).</p>
+        </div>
+
+        <!-- Phase 6 -->
+        <div class="phase-box">
+            <h2>📌 Phase 6: Full System Integration & Deployment</h2>
+            <div class="goal"><strong>Goal:</strong> To combine all independent modules into a cohesive, fully functional application and prepare it for deployment.</div>
+            <p><strong>Team Roles:</strong></p>
+            <ul>
+                <li><strong>Ankit (Backend Integration Lead):</strong> Link the UI (Phase 3), database (Phase 4), and all AI models (Phase 1 & 2) together. Ensure the seamless flow of data and correct functioning of API calls.</li>
+                <li><strong>Rahul (Backend Routing & Optimization):</strong> Implement the logic to route the image to the correct AI model (chest X-ray or brain scan) based on the uploaded file type. Implement error handling and logging throughout the system.</li>
+                <li><strong>Prince (Frontend Integration & User Experience):</strong> Update the frontend (Phase 3) to display the AI predictions, heatmaps, and reports on the user dashboard. Add report download links and ensure a cohesive user experience.</li>
+                <li><strong>Gautam (Testing & Quality Assurance):</strong> Perform end-to-end testing of the entire system. Identify and fix bugs. Assist with performance optimization.</li>
+            </ul>
+            <p><strong>Detailed Steps:</strong></p>
+            <ol>
+                <li>Integrate the Chest X-ray and Brain AI modules into the Flask backend.</li>
+                <li>Develop logic to automatically detect the type of uploaded image and send it to the correct AI module.</li>
+                <li>Update the frontend to display the AI results, heatmap images, and report download links.</li>
+                <li>Connect the report generation and visualization module to the backend.</li>
+                <li>Implement comprehensive error handling and logging across the system.</li>
+                <li>Conduct extensive testing (unit, integration, end-to-end).</li>
+                <li>Prepare the application for production deployment (e.g., Dockerization, Gunicorn/Nginx setup).</li>
+                <li>Finalize project documentation and presentation.</li>
+            </ol>
+            <p><strong>Outcome:</strong> A complete, integrated web application, Aarogyam ScanAI, ready for real-world use and scalable for future enhancements.</p>
+            <p><strong>Key Technologies & Tools:</strong> All technologies from previous phases, plus potentially Docker, Gunicorn, Nginx (for production deployment).</p>
+        </div>
+
+        <!-- Dataset & Algorithm Mapping Table -->
+        <h2>📌 Dataset Sources & Algorithm Mapping</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Phase</th>
+                    <th>Team Member</th>
+                    <th>Responsibilities</th>
+                    <th>Skills & Tools</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Phase 1</td>
+                    <td>Ankit & Gautam (Data), Rahul & Prince (Model)</td>
+                    <td>Chest X-Ray Analysis</td>
+                    <td>Python, NumPy, pydicom, OpenCV, TensorFlow/Keras, CNN, ResNet</td>
+                </tr>
+                <tr>
+                    <td>Phase 2</td>
+                    <td>Ankit & Gautam (Data), Rahul & Prince (Model)</td>
+                    <td>Brain CT/MRI Analysis</td>
+                    <td>Python, PyDicom, OpenCV, PyTorch, MONAI, 2D/3D CNN</td>
+                </tr>
+                <tr>
+                    <td>Phase 3</td>
+                    <td>Prince (UI), Rahul (Frontend Logic)</td>
+                    <td>UI & Frontend Dashboard</td>
+                    <td>HTML, CSS, JavaScript, Bootstrap</td>
+                </tr>
+                <tr>
+                    <td>Phase 4</td>
+                    <td>Ankit (DB), Rahul & Prince (Backend)</td>
+                    <td>Backend & Database Management</td>
+                    <td>Python-Flask, SQLite</td>
+                </tr>
+                <tr>
+                    <td>Phase 5</td>
+                    <td>Gautam (Visualization), Ankit (Reports)</td>
+                    <td>Report & Visualization Module</td>
+                    <td>OpenCV, Matplotlib, ReportLab/FPDF, Grad-CAM</td>
+                </tr>
+                <tr>
+                    <td>Phase 6</td>
+                    <td>All Members</td>
+                    <td>Full System Integration & Deployment</td>
+                    <td>Flask, TensorFlow, APIs, Documentation, Testing</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Hindi Content -->
+    <div id="hindi-content">
+    <h1>Aarogyam ScanAI: Detailed Project Plan (Independent Phases)</h1>
+
+    <div class="section-description">
+        <p>यह प्लान प्रोजेक्ट को छह स्व-निहित (self-contained) मॉड्यूल्स में विभाजित करता है। प्रत्येक मॉड्यूल को अंतिम एकीकरण (final integration) से पहले स्वतंत्र रूप से विकसित और परखा जा सकता है, जिससे समानांतर कार्य और स्पष्ट प्रगति ट्रैकिंग संभव होती है।</p>
+    </div>
+
+    <!-- Phase 1 -->
+    <div class="phase-box">
+        <h2>📌 Phase 1: Chest X-Ray AI Module Development</h2>
+        <div class="goal"><strong>लक्ष्य:</strong> एक पूर्ण, स्टैंडअलोन AI मॉडल विकसित करना जो विभिन्न फेफड़ों की बीमारियों के लिए चेस्ट एक्स-रे छवियों का विश्लेषण कर सके।</div>
+        <p><strong>टीम भूमिकाएँ:</strong></p>
+        <ul>
+            <li><strong>अंकित (Data Acquisition & Preprocessing Lead):</strong> NIH चेस्ट एक्स-रे और RSNA निमोनिया डिटेक्शन चैलेंज जैसे बड़े डेटासेट को खोजना, डाउनलोड करना और व्यवस्थित करना। DICOM, PNG, JPG फ़ाइलों को `pydicom` और `PIL` का उपयोग करके संभालना।</li>
+            <li><strong>गौतम (Preprocessing Specialist):</strong> छवियों का आकार 224x224 पिक्सेल में बदलना, ग्रेस्केल रूपांतरण, शोर हटाना (noise reduction), और डेटा ऑग्मेंटेशन (augmentation) जैसी प्रीप्रोसेसिंग तकनीकों को लागू करना। डेटा को ट्रेनिंग, वैलिडेशन और टेस्टिंग सेट में विभाजित करना।</li>
+            <li><strong>राहुल (Model Development Lead):</strong> चेस्ट एक्स-रे विश्लेषण के लिए उपयुक्त CNN आर्किटेक्चर (जैसे ResNet-101) का डिज़ाइन और कार्यान्वयन। मॉडल को प्रशिक्षित करना और हाइपरपैरामीटर ट्यूनिंग करना।</li>
+            <li><strong>प्रिंस (Prediction & Evaluation Specialist):</strong> प्रशिक्षित मॉडल का उपयोग करके बीमारी की भविष्यवाणी करना। मॉडल के प्रदर्शन का मूल्यांकन करना (Accuracy, ROC-AUC, Sensitivity, Specificity)। मॉडल को पुनः उपयोग के लिए सेव करना (HDF5 या SavedModel फॉर्मेट में)।</li>
+        </ul>
+        <p><strong>विस्तृत चरण:</strong></p>
+        <ol>
+            <li>आवश्यक डेटासेट (NIH Chest X-ray, RSNA Pneumonia) की पहचान और अधिग्रहण।</li>
+            <li>DICOM, PNG, JPG जैसे विभिन्न इमेज फॉर्मेट्स को मानक फॉर्मेट में परिवर्तित करना।</li>
+            <li>इमेज प्रीप्रोसेसिंग पाइपलाइन (resizing, normalization, noise reduction) का विकास।</li>
+            <li>डेटा ऑग्मेंटेशन तकनीकों का उपयोग करके डेटासेट का विस्तार करना।</li>
+            <li>CNN मॉडल आर्किटेक्चर का चयन और कार्यान्वयन।</li>
+            <li>मल्टी-क्लास क्लासिफिकेशन के लिए मॉडल को प्रशिक्षित करना (Normal, Pneumonia, TB, Pneumothorax, Cardiomegaly, Lung Cancer nodules)।</li>
+            <li>मॉडल के प्रदर्शन का कठोरता से मूल्यांकन करना और सुधार करना।</li>
+            <li>अंतिम मॉडल को एक पोर्टेबल फॉर्मेट में सेव करना।</li>
+        </ol>
+        <p><strong>परिणाम:</strong> एक स्टैंडअलोन पायथन मॉड्यूल जिसमें एक प्रशिक्षित AI मॉडल (.h5 या .pb फ़ाइल) और एक फ़ंक्शन शामिल है जो एक चेस्ट एक्स-रे इमेज पाथ को इनपुट के रूप में लेता है और बीमारी की भविष्यवाणी (डिजीज लेबल, आत्मविश्वास स्कोर) को एक संरचित डिक्शनरी के रूप में देता है। यह मॉड्यूल पूरी तरह से अपने आप काम कर सकता है।</p>
+        <p><strong>मुख्य तकनीकें और उपकरण:</strong> Python, NumPy, Pandas, pydicom, PIL, OpenCV, TensorFlow/Keras, PyTorch, CNN, ResNet-101.</p>
+    </div>
+
+    <!-- Phase 2 -->
+    <div class="phase-box">
+        <h2>📌 Phase 2: Brain CT/MRI AI Module Development</h2>
+        <div class="goal"><strong>लक्ष्य:</strong> CT और MRI स्कैन से मस्तिष्क की स्थितियों (जैसे रक्तस्राव, स्ट्रोक, ट्यूमर) का पता लगाने के लिए एक अलग, विशेष AI मॉडल बनाना।</div>
+        <p><strong>टीम भूमिकाएँ:</strong></p>
+        <ul>
+            <li><strong>अंकित (Data Handling Lead):</strong> LIDC-IDRI, BraTS, ISLES जैसे मस्तिष्क इमेजिंग डेटासेट को खोजना और व्यवस्थित करना। DICOM/NIfTI फ़ाइलों को संभालने और उन्हें AI मॉडल के लिए उपयुक्त फॉर्मेट में बदलने के लिए `PyDicom` और `NiBabel` का उपयोग करना।</li>
+            <li><strong>गौतम (Preprocessing Specialist):</strong> मस्तिष्क स्कैन के लिए विशेष प्रीप्रोसेसिंग तकनीकों (जैसे स्लाइस नॉर्मलाइज़ेशन, स्कल स्ट्रिपिंग, 3D वॉल्यूम हैंडलिंग) को लागू करना।</li>
+            <li><strong>राहुल (Model Development Lead):</strong> 2D/3D CNN आर्किटेक्चर (जैसे 3D ResNet, U-Net) का डिज़ाइन और कार्यान्वयन। मॉडल को प्रशिक्षित करना और ऑप्टिमाइज़ करना।</li>
+            <li><strong>प्रिंस (Prediction & Evaluation Specialist):</strong> प्रशिक्षित मॉडल का उपयोग करके मस्तिष्क की स्थितियों की भविष्यवाणी करना। क्लासिफिकेशन (जैसे रक्तस्राव, स्ट्रोक) और सेगमेंटेशन (जैसे ट्यूमर) दोनों के लिए मॉडल का मूल्यांकन करना।</li>
+        </ul>
+        <p><strong>विस्तृत चरण:</strong></p>
+        <ol>
+            <li>मस्तिष्क इमेजिंग डेटासेट (RSNA, ISLES, BraTS) की पहचान और अधिग्रहण।</li>
+            <li>DICOM/NIfTI डेटा को प्रीप्रोसेसिंग और मॉडल इनपुट के लिए तैयार करना।</li>
+            <li>मस्तिष्क स्कैन के लिए विशिष्ट प्रीप्रोसेसिंग पाइपलाइन का विकास।</li>
+            <li>2D और 3D CNN मॉडल आर्किटेक्चर का चयन और कार्यान्वयन।</li>
+            <li>मॉडल को विभिन्न मस्तिष्क स्थितियों (जैसे Hemorrhage, Ischemic Stroke, Atrophy, Brain Tumor lesion) का पता लगाने के लिए प्रशिक्षित करना।</li>
+            <li>क्लासिफिकेशन और सेगमेंटेशन मेट्रिक्स (जैसे Dice Coefficient) का उपयोग करके मॉडल के प्रदर्शन का मूल्यांकन करना।</li>
+            <li>अंतिम मॉडल को सेव करना।</li>
+        </ol>
+        <p><strong>परिणाम:</strong> एक स्टैंडअलोन पायथन मॉड्यूल जिसमें एक प्रशिक्षित AI मॉडल और एक फ़ंक्शन शामिल है जो एक मस्तिष्क स्कैन इमेज पाथ को इनपुट के रूप में लेता है और भविष्यवाणी (स्थिति, गंभीरता, यदि लागू हो तो सेगमेंटेशन मास्क) को एक संरचित डिक्शनरी के रूप में देता है। यह मॉड्यूल चेस्ट एक्स-रे मॉड्यूल से स्वतंत्र रूप से कार्य करेगा।</p>
+        <p><strong>मुख्य तकनीकें और उपकरण:</strong> Python, PyDicom, NiBabel, OpenCV, PyTorch, MONAI, CNN, 2D/3D ResNet, U-Net.</p>
+    </div>
+
+    <!-- Phase 3 -->
+    <div class="phase-box">
+        <h2>📌 Phase 3: Core UI & Frontend Dashboard Development</h2>
+        <div class="goal"><strong>लक्ष्य:</strong> वेब एप्लिकेशन के लिए एक पूरी तरह से कार्यात्मक और आकर्षक यूजर इंटरफेस (UI) बनाना, जिसमें होम पेज, अपलोड फ़ॉर्म, हिस्ट्री पेज, लॉगिन और पंजीकरण शामिल हों।</div>
+        <p><strong>टीम भूमिकाएँ:</strong></p>
+        <ul>
+            <li><strong>प्रिंस (UI/UX Design & HTML/CSS Lead):</strong> सभी वेब पेजों (Home, About, Plan, Upload, History, Login, Register) के लिए वायरफ्रेम और मॉकअप डिज़ाइन करना। एक प्रतिक्रियाशील (responsive) और उपयोगकर्ता के अनुकूल डिज़ाइन सुनिश्चित करते हुए HTML संरचना और CSS स्टाइलिंग (सभी संबंधित `.css` फ़ाइलें) विकसित करना।</li>
+            <li><strong>राहुल (Frontend JavaScript & Interactivity):</strong> क्लाइंट-साइड जावास्क्रिप्ट लिखना जो मेनू टॉगलिंग, बुनियादी फ़ॉर्म सत्यापन (validation), और गतिशील सामग्री प्रदर्शन के लिए प्लेसहोल्डर जैसी उपयोगकर्ता इंटरैक्शन को संभालता है। सभी नेविगेशन लिंक (`url_for`) को सही Flask रूट्स पर सेट करना।</li>
+        </ul>
+        <p><strong>विस्तृत चरण:</strong></p>
+        <ol>
+            <li>वेबसाइट के सभी मुख्य पेजों के लिए UI/UX डिज़ाइन बनाना।</li>
+            <li>`base.html` सहित सभी HTML टेम्पलेट्स को विकसित करना।</li>
+            <li>प्रत्येक पेज के लिए समर्पित CSS फ़ाइलें (जैसे `style.css`, `about.css`, `plan.css`, `login.css`, `register.css`, `history.css`) बनाना और उन्हें लिंक करना।</li>
+            <li>मोबाइल मेनू टॉगलिंग, फ़ॉर्म इनपुट पर बुनियादी क्लाइंट-साइड सत्यापन के लिए जावास्क्रिप्ट लागू करना।</li>
+            <li>सभी नेविगेशन लिंक्स को Flask के `url_for` फंक्शन का उपयोग करके सही ढंग से कॉन्फ़िगर करना।</li>
+        </ol>
+        <p><strong>परिणाम:</strong> स्थिर HTML/CSS/JS फ़ाइलों का एक सेट जो संपूर्ण दृश्य और इंटरैक्टिव फ्रंटएंड का प्रतिनिधित्व करता है। यह मॉड्यूल नेत्रहीन रूप से पूर्ण होगा और बुनियादी उपयोगकर्ता इंटरैक्शन को संभालेगा, लेकिन अभी तक बैकएंड या AI मॉडल से जुड़ा नहीं होगा।</p>
+        <p><strong>मुख्य तकनीकें और उपकरण:</strong> HTML5, CSS3, JavaScript (Vanilla JS), Bootstrap (यदि उपयोग किया गया हो), Jinja2 templating.</p>
+    </div>
+
+    <!-- Phase 4 -->
+    <div class="phase-box">
+        <h2>📌 Phase 4: Backend & Database System</h2>
+        <div class="goal"><strong>लक्ष्य:</strong> उपयोगकर्ता प्रमाणीकरण, सत्र प्रबंधन और सुरक्षित डेटा भंडारण के लिए कोर सर्वर-साइड लॉजिक विकसित करना।</div>
+        <p><strong>टीम भूमिकाएँ:</strong></p>
+        <ul>
+            <li><strong>अंकित (Database Design & Implementation Lead):</strong> SQLite डेटाबेस (`user_data.db`) स्थापित करना। `users` और `history` जैसी तालिकाओं के लिए विस्तृत डेटाबेस स्कीमा (schema) को डिज़ाइन और लागू करना, डेटा अखंडता और संबंध (relationships) सुनिश्चित करना।</li>
+            <li><strong>राहुल (Flask Routes & API Development):</strong> Flask एप्लिकेशन संरचना स्थापित करना। उपयोगकर्ता पंजीकरण, लॉगिन, लॉगआउट और अन्य आवश्यक डेटा इंटरैक्शन के लिए सभी आवश्यक API एंडपॉइंट बनाना।</li>
+            <li><strong>प्रिंस (User Authentication & Session Management):</strong> उपयोगकर्ता सत्रों को सुरक्षित रूप से प्रबंधित करने के लिए Flask के सत्र (`session`) ऑब्जेक्ट का उपयोग करना। पासवर्ड को सुरक्षित रूप से स्टोर करने के लिए `werkzeug.security` जैसी लाइब्रेरी का उपयोग करके पासवर्ड हैशिंग लागू करना।</li>
+        </ul>
+        <p><strong>विस्तृत चरण:</strong></p>
+        <ol>
+            <li>Flask एप्लिकेशन का प्रारंभिक सेटअप और कॉन्फ़िगरेशन।</li>
+            <li>SQLite डेटाबेस कनेक्शन (`get_db`, `close_connection`) के लिए यूटिलिटी फ़ंक्शंस बनाना।</li>
+            <li>`users` और `history` तालिकाओं को बनाने के लिए डेटाबेस इनिशियलाइज़ेशन स्क्रिप्ट विकसित करना।</li>
+            <li>उपयोगकर्ता पंजीकरण (`/register`) और लॉगिन (`/login`) के लिए Flask रूट्स और लॉजिक लागू करना।</li>
+            <li>लॉगिन स्थिति और उपयोगकर्ता-विशिष्ट डेटा के लिए सत्र प्रबंधन लागू करना।</li>
+            <li>भविष्य के AI और रिपोर्ट मॉड्यूल से डेटा प्राप्त करने और स्टोर करने के लिए API एंडपॉइंट्स को परिभाषित करना।</li>
+        </ol>
+        <p><strong>परिणाम:</strong> एक पूरी तरह से कार्यात्मक Flask सर्वर जो उपयोगकर्ता पंजीकरण, लॉगिन/लॉगआउट को संभालता है, और डेटाबेस तालिकाओं को बनाता है और एक्सेस करता है। यह मॉड्यूल अन्य मॉड्यूलों से डेटा प्राप्त करने और उसे सुरक्षित रूप से स्टोर करने के लिए तैयार होगा।</p>
+        <p><strong>मुख्य तकनीकें और उपकरण:</strong> Python, Flask, SQLite3, `werkzeug.security`, `g` (Flask context globals).</p>
+    </div>
+
+    <!-- Phase 5 -->
+    <div class="phase-box">
+        <h2>📌 Phase 5: Report Generation & Visualization Service</h2>
+        <div class="goal"><strong>लक्ष्य:</strong> AI भविष्यवाणियों के आधार पर डायग्नोस्टिक रिपोर्ट और विज़ुअल हीटमैप उत्पन्न करने के लिए एक स्टैंडअलोन सेवा बनाना।</div>
+        <p><strong>टीम भूमिकाएँ:</strong></p>
+        <ul>
+            <li><strong>गौतम (Heatmap Visualization Lead):</strong> Grad-CAM (Gradient-weighted Class Activation Mapping) तकनीक को लागू करना। यह स्कैन पर प्रभावित क्षेत्रों को स्वचालित रूप से हाइलाइट करेगा, जिससे AI की भविष्यवाणी के लिए दृश्य स्पष्टीकरण मिलेगा।</li>
+            <li><strong>अंकित (Report Generation Specialist):</strong> AI भविष्यवाणियों और उत्पन्न हीटमैप को शामिल करते हुए पेशेवर, डाउनलोड करने योग्य PDF रिपोर्ट बनाने के लिए `ReportLab` या `FPDF` जैसी लाइब्रेरी का उपयोग करना। रिपोर्ट में संरचित पाठ्य निदान सुझाव भी शामिल होंगे।</li>
+        </ul>
+        <p><strong>विस्तृत चरण:</strong></p>
+        <ol>
+            <li>Grad-CAM एल्गोरिथम का कार्यान्वयन जो एक इमेज और मॉडल आउटपुट को इनपुट के रूप में लेता है।</li>
+            <li>उत्पन्न हीटमैप को मूल स्कैन इमेज पर ओवरले करने की कार्यक्षमता विकसित करना।</li>
+            <li>PDF रिपोर्ट टेम्पलेट का डिज़ाइन जिसमें AI परिणाम, हीटमैप इमेज, अपलोड की तारीख और अन्य प्रासंगिक जानकारी शामिल हो।</li>
+            <li>रिपोर्ट को बहुभाषी (multilingual) बनाने के लिए लॉजिक जोड़ना (जैसे Google Translate API का उपयोग करके या पूर्व-अनुवादित स्ट्रिंग्स के साथ)।</li>
+            <li>यह सुनिश्चित करना कि रिपोर्ट स्पष्ट, संक्षिप्त और समझने में आसान हो।</li>
+        </ol>
+        <p><strong>परिणाम:</strong> एक स्टैंडअलोन पायथन मॉड्यूल जिसमें फ़ंक्शंस शामिल हैं जो AI भविष्यवाणी डेटा और एक मूल इमेज को इनपुट के रूप में लेते हैं, और एक हीटमैप इमेज फ़ाइल (.png) और एक डाउनलोड करने योग्य PDF रिपोर्ट फ़ाइल (.pdf) आउटपुट करते हैं। यह मॉड्यूल अन्य AI मॉड्यूलों के पूरा होने का इंतजार किए बिना डमी डेटा के साथ विकसित और परीक्षण किया जा सकता है।</p>
+        <p><strong>मुख्य तकनीकें और उपकरण:</strong> Python, OpenCV, Matplotlib, ReportLab/FPDF, Grad-CAM libraries (e.g., `tf-keras-vis` या कस्टम कार्यान्वयन).</p>
+    </div>
+
+    <!-- Phase 6 -->
+    <div class="phase-box">
+        <h2>📌 Phase 6: Full System Integration & Deployment</h2>
+        <div class="goal"><strong>लक्ष्य:</strong> सभी स्वतंत्र मॉड्यूलों को एक सुसंगत, पूरी तरह कार्यात्मक एप्लिकेशन में जोड़ना और इसे डिप्लॉयमेंट के लिए तैयार करना।</div>
+        <p><strong>टीम भूमिकाएँ:</strong></p>
+        <ul>
+            <li><strong>अंकित (Backend Integration Lead):</strong> UI (Phase 3), डेटाबेस (Phase 4), और सभी AI मॉडल (Phase 1 & 2) को एक साथ लिंक करना। डेटा के निर्बाध प्रवाह और API कॉल्स के सही संचालन को सुनिश्चित करना।</li>
+            <li><strong>राहुल (Backend Routing & Optimization):</strong> अपलोड की गई फ़ाइल के प्रकार के आधार पर सही AI मॉडल (चेस्ट एक्स-रे या ब्रेन स्कैन) पर इमेज को रूट करने के लिए लॉजिक लागू करना। पूरे सिस्टम में त्रुटि हैंडलिंग और लॉगिंग को लागू करना।</li>
+            <li><strong>प्रिंस (Frontend Integration & User Experience):</strong> AI भविष्यवाणियों, हीटमैप और रिपोर्ट को उपयोगकर्ता डैशबोर्ड पर प्रदर्शित करने के लिए फ्रंटएंड (Phase 3) को अपडेट करना। रिपोर्ट डाउनलोड लिंक्स को जोड़ना और एक सुसंगत उपयोगकर्ता अनुभव सुनिश्चित करना।</li>
+            <li><strong>गौतम (Testing & Quality Assurance):</strong> पूरे सिस्टम का एंड-टू-एंड परीक्षण करना। बग्स की पहचान करना और उन्हें ठीक करना। प्रदर्शन अनुकूलन (performance optimization) में सहायता करना।</li>
+        </ul>
+        <p><strong>विस्तृत चरण:</strong></p>
+        <ol>
+            <li>Flask बैकएंड में चेस्ट एक्स-रे और ब्रेन AI मॉड्यूलों को एकीकृत करना।</li>
+            <li>अपलोड की गई इमेज के प्रकार का स्वचालित रूप से पता लगाने और उसे सही AI मॉड्यूल पर भेजने के लिए लॉजिक विकसित करना।</li>
+            <li>फ्रंटएंड को अपडेट करना ताकि AI परिणाम, हीटमैप इमेज और रिपोर्ट डाउनलोड लिंक्स प्रदर्शित हो सकें।</li>
+            <li>रिपोर्ट जनरेशन और विज़ुअलाइज़ेशन मॉड्यूल को बैकएंड से जोड़ना।</li>
+            <li>पूरे सिस्टम में व्यापक त्रुटि हैंडलिंग और लॉगिंग लागू करना।</li>
+            <li>व्यापक परीक्षण (यूनिट, इंटीग्रेशन, एंड-टू-एंड) करना।</li>
+            <li>उत्पादन डिप्लॉयमेंट (जैसे Dockerization, Gunicorn/Nginx सेटअप) के लिए एप्लिकेशन तैयार करना।</li>
+            <li>अंतिम प्रोजेक्ट डॉक्यूमेंटेशन और प्रेजेंटेशन तैयार करना।</li>
+        </ol>
+        <p><strong>परिणाम:</strong> एक पूर्ण, एकीकृत वेब एप्लिकेशन, Aarogyam ScanAI, जो वास्तविक दुनिया के उपयोग के लिए तैयार है और भविष्य के संवर्द्धन के लिए स्केलेबल है।</p>
+        <p><strong>मुख्य तकनीकें और उपकरण:</strong> सभी पिछले चरणों की तकनीकें, साथ ही संभावित रूप से Docker, Gunicorn, Nginx (उत्पादन डिप्लॉयमेंट के लिए).</p>
+    </div>
+
+    <!-- Dataset & Algorithm Mapping Table -->
+    <h2>📌 Dataset Sources & Algorithm Mapping</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>चरण</th>
+                <th>टीम सदस्य</th>
+                <th>जिम्मेदारियाँ</th>
+                <th>कौशल और उपकरण</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>चरण 1</td>
+                <td>अंकित & गौतम (डेटा), राहुल & प्रिंस (मॉडल)</td>
+                <td>चेस्ट एक्स-रे विश्लेषण</td>
+                <td>Python, NumPy, pydicom, OpenCV, TensorFlow/Keras, CNN, ResNet</td>
+            </tr>
+            <tr>
+                <td>चरण 2</td>
+                <td>अंकित & गौतम (डेटा), राहुल & प्रिंस (मॉडल)</td>
+                <td>ब्रेन CT/MRI विश्लेषण</td>
+                <td>Python, PyDicom, OpenCV, PyTorch, MONAI, 2D/3D CNN</td>
+            </tr>
+            <tr>
+                <td>चरण 3</td>
+                <td>प्रिंस (UI), राहुल (फ्रंटएंड लॉजिक)</td>
+                <td>UI & फ्रंटएंड डैशबोर्ड</td>
+                <td>HTML, CSS, JavaScript, Bootstrap</td>
+            </tr>
+            <tr>
+                <td>चरण 4</td>
+                <td>अंकित (DB), राहुल & प्रिंस (बैकएंड)</td>
+                <td>बैकएंड & डेटाबेस प्रबंधन</td>
+                <td>Python-Flask, SQLite</td>
+            </tr>
+            <tr>
+                <td>चरण 5</td>
+                <td>गौतम (विज़ुअलाइज़ेशन), अंकित (रिपोर्ट्स)</td>
+                <td>रिपोर्ट & विज़ुअलाइज़ेशन मॉड्यूल</td>
+                <td>OpenCV, Matplotlib, ReportLab/FPDF, Grad-CAM</td>
+            </tr>
+            <tr>
+                <td>चरण 6</td>
+                <td>सभी सदस्य</td>
+                <td>पूर्ण सिस्टम एकीकरण & डिप्लॉयमेंट</td>
+                <td>Flask, TensorFlow, APIs, डॉक्यूमेंटेशन, टेस्टिंग</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}

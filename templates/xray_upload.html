@@ -1,102 +1,38 @@
-{% extends 'base.html' %}
-
-{% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/upload.css') }}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-{% endblock %}
-
+{% extends "base.html" %}
 {% block content %}
-<main class="diagnostic-upload-wrapper">
-    <div class="upload-dashboard-card fade-in-up">
-        
-        <div class="dashboard-header">
-            <div class="icon-shield"><i class="fas fa-microscope"></i></div>
-            <h2>Patient Scan Portal</h2>
-            <p>Securely upload radiological images for AI-powered evaluation.</p>
+<div class="upload-container" style="max-width: 600px; margin: 50px auto; padding: 30px; background: white; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+    <h2 style="text-align: center; color: #2c3e50;">Patient Scan Portal</h2>
+    <p style="text-align: center; color: #7f8c8d; margin-bottom: 30px;">Securely upload radiological images for AI evaluation.</p>
+    
+    <form action="{{ url_for('xray_upload_route') }}" method="POST" enctype="multipart/form-data">
+        <div style="margin-bottom: 15px;">
+            <label>Patient Full Name</label>
+            <input type="text" name="name" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" required>
         </div>
-
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <div class="alert-container">
-            {% for category, msg in messages %}
-                <div class="alert-box {{ category }}">
-                    <i class="fas fa-info-circle"></i> {{ msg }}
-                </div>
-            {% endfor %}
+        <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+            <div style="flex: 1;">
+                <label>Patient Age</label>
+                <input type="number" name="age" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" required>
             </div>
-        {% endif %}
-        {% endwith %}
-
-        <form action="{{ url_for('xray_upload_route') }}" method="POST" enctype="multipart/form-data" class="diagnostic-form">
-            
-            <div class="input-row">
-                <div class="input-column">
-                    <label for="name">Patient Full Name</label>
-                    <div class="input-box">
-                        <i class="fas fa-user box-icon"></i>
-                        <input type="text" id="name" name="name" placeholder="e.g. Sneha singh" required autocomplete="off">
-                    </div>
-                </div>
-
-                <div class="input-column">
-                    <label for="age">Patient Age</label>
-                    <div class="input-box">
-                        <i class="fas fa-birthday-cake box-icon"></i>
-                        <input type="number" id="age" name="age" placeholder="e.g. 18" required min="1" max="120">
-                    </div>
-                </div>
+            <div style="flex: 1;">
+                <label>Biological Sex</label>
+                <select name="gender" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" required>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
             </div>
-
-            <div class="input-row">
-                <div class="input-column">
-                    <label for="gender">Biological Sex</label>
-                    <div class="input-box custom-select-wrapper">
-                        <i class="fas fa-venus-mars box-icon"></i>
-                        <select id="gender" name="gender" required>
-                            <option value="" disabled selected>Select option....</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Other">Other</option>
-                        </select>
-                        <i class="fas fa-chevron-down select-arrow"></i>
-                    </div>
-                </div>
-
-                <div class="input-column">
-                    <label for="address">Location / Address</label>
-                    <div class="input-box">
-                        <i class="fas fa-map-marker-alt box-icon"></i>
-                        <input type="text" id="address" name="address" placeholder="e.g. pasraha,khagaria, Bihar" required autocomplete="off">
-                    </div>
-                </div>
-            </div>
-
-            <div class="upload-zone-container">
-                <label>Medical Scan File (X-Ray / DICOM)</label>
-                <input type="file" id="xray_image" name="xray_image" accept="image/*" required class="hidden-input">
-                
-                <label for="xray_image" class="drag-drop-area" id="drag-drop-area">
-                    <div class="pulse-circle">
-                        <i class="fas fa-cloud-upload-alt upload-main-icon"></i>
-                    </div>
-                    <h3 class="drop-text-primary">Click or Drag & Drop Scan Here</h3>
-                    <p class="drop-text-secondary">Supported formats: High-resolution JPEG, PNG, or DICOM</p>
-                    
-                    <div class="file-status-badge" id="file-status-badge">
-                        <i class="fas fa-exclamation-circle"></i> Waiting for file...
-                    </div>
-                </label>
-            </div>
-
-            <div class="submit-container">
-                <button type="submit" class="ai-submit-btn">
-                    <i class="fas fa-brain"></i> Execute Neural Analysis
-                </button>
-            </div>
-
-        </form>
-    </div>
-</main>
-
-<script src="{{ url_for('static', filename='js/upload.js') }}"></script>
+        </div>
+        <div style="margin-bottom: 15px;">
+            <label>Location / Address</label>
+            <input type="text" name="address" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" required>
+        </div>
+        <div style="margin-bottom: 25px; border: 2px dashed #3498db; padding: 20px; text-align: center; border-radius: 10px;">
+            <label for="file-upload" style="cursor: pointer; color: #3498db; font-weight: bold;">Click to Upload X-Ray Scan</label>
+            <input id="file-upload" type="file" name="file" style="display: block; margin: 10px auto;" required>
+            <small style="color: #95a5a6;">Supported: JPEG, PNG</small>
+        </div>
+        <button type="submit" style="width: 100%; padding: 15px; background: #3498db; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; font-weight: bold;">Execute Neural Analysis</button>
+    </form>
+</div>
 {% endblock %}

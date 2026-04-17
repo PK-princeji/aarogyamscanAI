@@ -1,0 +1,18 @@
+{
+  "id": "c2843f9e-b120-4336-b56a-66775994155b",
+  "patient": {
+    "name": "Prince Kumar",
+    "age": "24",
+    "gender": "Male",
+    "address": "sicjscfh"
+  },
+  "prediction": {
+    "label": "Normal",
+    "probability": 0.002924916800111532,
+    "confidence": 0.9970750831998885
+  },
+  "paths": {
+    "input_image": "D:/final_year_project/code_X_Elite/aarogyamScanAi\\reports\\c2843f9e-b120-4336-b56a-66775994155b_input.png",
+    "gradcam_image": "D:/final_year_project/code_X_Elite/aarogyamScanAi\\reports\\c2843f9e-b120-4336-b56a-66775994155b_gradcam.png"
+  }
+}

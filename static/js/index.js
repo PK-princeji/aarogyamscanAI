@@ -27,3 +27,32 @@ document.addEventListener("DOMContentLoaded", function() {
         fadeElements.forEach(el => el.classList.add('is-visible'));
     }
 });
+let currentIdx = 0;
+const slides = document.querySelectorAll('.vvi-slide');
+const dots = document.querySelectorAll('.dot');
+
+function showSlide(idx) {
+    slides.forEach((slide, i) => {
+        slide.classList.remove('active', 'exit');
+        if (i < idx) {
+            slide.classList.add('exit'); // Previous slides exit to the right
+        }
+        dots[i].classList.remove('active');
+    });
+    
+    slides[idx].classList.add('active');
+    dots[idx].classList.add('active');
+}
+
+function nextSlide() {
+    currentIdx = (currentIdx + 1) % slides.length;
+    showSlide(currentIdx);
+}
+
+function currentSlide(idx) {
+    currentIdx = idx;
+    showSlide(currentIdx);
+}
+
+// 6 Seconds auto-slide
+setInterval(nextSlide, 6000);

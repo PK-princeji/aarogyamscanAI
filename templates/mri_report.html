@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/report.css') }}">
+<style>
+    .detected { color: #e74c3c; font-weight: bold; }
+    .negative { color: #27ae60; }
+    .diagnosis-table th { background-color: #8e44ad; color: white; padding: 12px; }
+    .diagnosis-table td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+    
+    /* Print करते वक़्त बटन छुपाने के लिए */
+    @media print {
+        .action-buttons { display: none !important; }
+        .navbar { display: none !important; }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="report-container" style="max-width: 800px; margin: 40px auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+
+    <div class="report-header" style="text-align: center; border-bottom: 2px solid #8e44ad; padding-bottom: 20px; margin-bottom: 20px;">
+        <div class="hospital-logo">
+            <h1 style="color: #8e44ad; margin-bottom: 5px;">🧠 AAROGYAM SCAN AI</h1>
+            <p style="color: #555; font-size: 1.1rem; font-weight: bold;">Neuro-Oncology MRI Diagnostic System</p>
+        </div>
+        <div class="report-meta" style="display: flex; justify-content: space-between; margin-top: 20px; font-size: 0.9rem; color: #666;">
+            <p><b>Report ID:</b> {{ report_id }}</p>
+            <p><b>Generated:</b> {{ generated_at }}</p>
+            <p><b>AI Version:</b> NeuroEngine v4.0</p>
+        </div>
+    </div>
+
+    <div class="section patient-info-section" style="margin-bottom: 30px;">
+        <h3 class="section-title" style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px;">👤 Patient Information</h3>
+        <div class="patient-card" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: #fdfafc; padding: 15px; border-radius: 8px; border-left: 4px solid #8e44ad;">
+            <div class="info-row"><span style="color: #777;">Name:</span> <b>{{ p_name }}</b></div>
+            <div class="info-row"><span style="color: #777;">Age:</span> <b>{{ p_age }}</b></div>
+            <div class="info-row"><span style="color: #777;">Gender:</span> <b>{{ p_gender }}</b></div>
+            <div class="info-row"><span style="color: #777;">Address:</span> <b>{{ p_address }}</b></div>
+        </div>
+    </div>
+
+    <div class="section diagnosis-section" style="margin-bottom: 30px;">
+        <h3 class="section-title" style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px;">🤖 AI Diagnostic Analysis</h3>
+        <table class="diagnosis-table" style="width: 100%; border-collapse: collapse; margin-top: 15px;">
+            <thead>
+                <tr>
+                    <th>Disease</th>
+                    <th>Status</th>
+                    <th>Probability</th>
+                    <th>Confidence</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in result.all_predictions %}
+                <tr>
+                    <td>{{ item.disease }}</td>
+                    <td class="{% if item.disease == result.diagnosis %}detected{% else %}negative{% endif %}">
+                        {% if item.disease == result.diagnosis %} Detected {% else %} Negative {% endif %}
+                    </td>
+                    <td>{{ "%.4f"|format(item.probability) }}</td>
+                    <td>{{ item.confidence }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <div style="margin-top: 20px; padding: 15px; background: #fdfafc; border-left: 5px solid #8e44ad; border-radius: 5px;">
+            <strong>Final Conclusion:</strong> The AI model has detected <b style="color: #8e44ad; font-size: 1.1rem;">{{ result.diagnosis }}</b> with <b>{{ result.confidence }}</b> confidence.
+        </div>
+    </div>
+
+    <div class="section images-section" style="margin-bottom: 30px;">
+        <h3 class="section-title" style="color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px;">🔍 Visual Analysis</h3>
+        <div class="images-container" style="text-align: center; margin-top: 15px;">
+            <div class="image-box" style="display: inline-block;">
+                <img src="/{{ img_path.replace('\\', '/') }}" alt="Scanned MRI" style="max-width: 350px; max-height: 350px; object-fit: contain; border: 3px solid #8e44ad; border-radius: 8px;">
+                <div class="image-caption" style="margin-top: 10px; font-weight: bold; color: #555;">Input MRI Scan</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="action-buttons" style="margin-top: 30px; display: flex; gap: 20px; justify-content: center;">
+        <button onclick="window.print()" class="btn" style="padding: 12px 25px; cursor: pointer; border: 2px solid #8e44ad; background: transparent; color: #8e44ad; border-radius: 5px; font-weight: bold; margin-right: 15px;">🖨️ Print Report</button>
+        <a href="/" class="btn" style="text-decoration: none; padding: 12px 25px; background: #eee; color: #333; border-radius: 5px; font-weight: bold;">🏠 Back to Home</a>
+    </div>
+
+    <div class="report-footer" style="margin-top: 40px; border-top: 1px solid #ccc; padding-top: 20px; text-align: center; color: #777; font-size: 0.9rem;">
+        <h4>Note:</h4>
+        <p>This report is generated by AI (3D U-Net & Vision Transformer Architecture) and should be reviewed by a certified Neuro-Radiologist for final diagnosis confirmation.</p>
+    </div>
+
+</div>
+{% endblock %}

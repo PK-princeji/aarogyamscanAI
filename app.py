@@ -1,10 +1,11 @@
+from routes.mri_routes import mri_upload_route
 # app.py: Main Flask application with route imports and configuration
 from flask import Flask, g
 import os
 import sqlite3
 from database import get_db, close_connection, init_db
 from routes.xray_routes import xray_upload_route, xray_report_view, download_report
-from routes.scan_routes import ctscan_upload, mri_upload, scan_history_detail, history, delete_history, delete_history_bulk
+from routes.scan_routes import ctscan_upload, mri_upload, history, delete_history, mri_report_view
 from routes.auth_routes import login, register, logout
 from routes.misc_routes import home, about_project, about_team, plan, xray_solution, ctscan_solution, mri_solution, download_file
 from routes.misc_routes import not_found_error, internal_error, request_entity_too_large
@@ -85,9 +86,7 @@ app.route('/reports/<username>/<filename>')(download_file)
 app.route('/ctscan_upload', methods=['GET', 'POST'])(ctscan_upload)
 app.route('/mri_upload', methods=['GET', 'POST'])(mri_upload)
 app.route('/history')(history)
-app.route('/scan_history/<report_id>/<scan_type>')(scan_history_detail)
 app.route('/delete_history/<int:record_id>')(delete_history)
-app.route('/delete_history_bulk', methods=['POST'])(delete_history_bulk)
 app.route('/download_json/<report_id>', methods=['GET'])(download_json)
 app.add_url_rule("/login", "login", login, methods=["GET", "POST"])
 app.add_url_rule("/register", "register", register, methods=["GET", "POST"])
@@ -102,7 +101,60 @@ app.after_request
 def add_header(response):
     response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
     return response
+
 # ===== RUN SERVER =====
+
+# =============== NEW MRI AI ROUTES (Bypass) ===============
+from flask import request, redirect, render_template, session, flash
+from werkzeug.utils import secure_filename
+import os, random, datetime
+from utils.predict_mri import predict_mri
+
+@app.route('/mri_scan_ai', methods=['GET', 'POST'])
+def mri_scan_ai():
+    if request.method == 'POST':
+        file = request.files.get('file')
+        if not file:
+            flash("No file uploaded", "error")
+            return redirect(request.url)
+        
+        p_name = request.form.get('name', 'Unknown')
+        p_age = request.form.get('age', 'N/A')
+        p_gender = request.form.get('gender', 'N/A')
+        p_address = request.form.get('address', 'N/A')
+        
+        filename = secure_filename(file.filename)
+        path = os.path.join('static', 'uploads', 'mri', filename)
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        file.save(path)
+        
+        result = predict_mri(path)
+        if result:
+            report_id = f"MRI_{random.randint(1000, 9999)}"
+            gen_at = datetime.datetime.now().strftime("%d-%b-%Y %I:%M %p")
+            
+            report_data = {
+                'report_id': report_id, 'generated_at': gen_at,
+                'ai_version': 'NeuroEngine v4.0',
+                'patient_info': {'name': p_name, 'age': p_age, 'gender': p_gender, 'address': p_address},
+                'analysis': {'label': result['diagnosis'], 'probability': result['confidence']},
+                'images': {'input': path}
+            }
+            session['last_report'] = report_data
+            session['last_result'] = result
+            return render_template('xray_report.html', report=report_data, result=result, **report_data['patient_info'], report_id=report_id, generated_at=gen_at, img_path=path)
+            
+    return render_template('mri_upload.html')
+
+@app.route('/mri_theory')
+def mri_theory():
+    return render_template('mri.html')
+# ==========================================================
+
+
+from routes.scan_routes import ctscan_upload, mri_upload, history, delete_history, mri_report_view
+
+app.route('/mri_report_view', methods=['GET'])(mri_report_view)
 if __name__ == '__main__':
     print("🚀 Starting AarogyamScanAI Server...")
     print(f"📁 Reports Directory: {BASE_REPORT_FOLDER}")

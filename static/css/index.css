@@ -185,3 +185,193 @@
         padding: 40px 20px;
     }
 }
+/* --- 🚀 VVI SLIDER STYLING --- */
+.vvi-slider-container {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    background: #6a7792;
+    overflow: hidden;
+    margin-bottom: 50px;
+}
+
+.vvi-slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10%;
+    opacity: 0;
+    transform: translateX(50px);
+    transition: all 0.8s ease-in-out;
+}
+
+.vvi-slide.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.slide-content { flex: 1; color: white; z-index: 10; }
+
+.slide-badge {
+    background: #8e44ad;
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.slide-content h2 { font-size: 3.5rem; font-weight: 800; margin-bottom: 20px; }
+.slide-content p { font-size: 1.2rem; color: #cbd5e1; margin-bottom: 30px; max-width: 500px; }
+
+.btn-primary-glow {
+    padding: 15px 35px;
+    background: #8e44ad;
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: bold;
+    box-shadow: 0 0 20px rgba(142, 68, 173, 0.5);
+    transition: 0.3s;
+}
+
+.btn-secondary-outline {
+    padding: 15px 35px;
+    border: 2px solid rgba(255,255,255,0.2);
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    margin-left: 15px;
+    transition: 0.3s;
+}
+
+.slide-image { flex: 1; text-align: right; }
+.slide-image img {
+    width: 500px;
+    border-radius: 30px;
+    box-shadow: 0 0 40px rgba(0,0,0,0.5);
+}
+
+.vvi-slider-container {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    background: #0f172a;
+    overflow: hidden;
+    margin-bottom: 50px;
+}
+
+.vvi-slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10%;
+    /* 🚨 Left to Right Logic */
+    opacity: 0;
+    transform: translateX(-100%); /* Start from Left */
+    transition: all 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.vvi-slide.active {
+    opacity: 1;
+    transform: translateX(0); /* Move to Center */
+}
+
+/* Jab slide jati hai toh wo right me nikal jati hai */
+.vvi-slide.exit {
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+.slide-content h2 { font-size: 3.5rem; color: white; font-weight: 800; margin-bottom: 20px; }
+.slide-content p { font-size: 1.2rem; color: #cbd5e1; margin-bottom: 30px; max-width: 550px; }
+
+.slide-image img {
+    width: 450px;
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+    border: 2px solid rgba(255,255,255,0.1);
+}
+
+.dot {
+    height: 12px;
+    width: 12px;
+    background: rgba(255,255,255,0.2);
+    display: inline-block;
+    margin: 0 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.dot.active { background: #3b82f6; width: 35px; border-radius: 10px; }
+/* --- 🚀 MULTI-SECTION SLIDER DESIGN --- */
+.vvi-multi-slider {
+    width: 100%;
+    background: #ffffff; /* White background for clean look */
+    border-bottom: 2px solid #e2e8f0;
+    overflow: hidden;
+    padding: 15px 0;
+    display: flex;
+    align-items: center;
+}
+
+.vvi-track {
+    display: flex;
+    width: calc(250px * 9); /* Multi-item width */
+    animation: scroll-left 30s linear infinite;
+}
+
+.vvi-item {
+    width: 280px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 0 30px;
+    border-right: 1px solid #e2e8f0;
+}
+
+.vvi-item i {
+    font-size: 1.8rem;
+    color: #1e3a8a; /* Medical Blue */
+    background: #eff6ff;
+    padding: 10px;
+    border-radius: 12px;
+}
+
+.vvi-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.vvi-text .label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #64748b;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.vvi-text .value {
+    font-size: 1rem;
+    color: #0f172a;
+    font-weight: 800;
+}
+
+/* 🟢 Scrolling Animation */
+@keyframes scroll-left {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-280px * 6)); }
+}
+
+/* Pause on hover to let user read */
+.vvi-multi-slider:hover .vvi-track {
+    animation-play-state: paused;
+}

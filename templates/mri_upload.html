@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="upload-container" style="max-width: 600px; margin: 50px auto; padding: 30px; background: white; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-top: 5px solid #8e44ad;">
+    <h2 style="text-align: center; color: #8e44ad;">🧠 MRI Scan Upload</h2>
+    <p style="text-align: center; color: #7f8c8d; margin-bottom: 30px;">Enter patient details and upload Magnetic Resonance Image.</p>
+    
+    <form action="" method="POST" enctype="multipart/form-data">
+        <div style="margin-bottom: 15px;">
+            <label style="font-weight: bold; color: #333;">Patient Full Name</label>
+            <input type="text" name="name" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-top: 5px;" required>
+        </div>
+        <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+            <div style="flex: 1;">
+                <label style="font-weight: bold; color: #333;">Patient Age</label>
+                <input type="number" name="age" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-top: 5px;" required>
+            </div>
+            <div style="flex: 1;">
+                <label style="font-weight: bold; color: #333;">Biological Sex</label>
+                <select name="gender" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-top: 5px;" required>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+        </div>
+        <div style="margin-bottom: 15px;">
+            <label style="font-weight: bold; color: #333;">Location / Address</label>
+            <input type="text" name="address" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-top: 5px;" required>
+        </div>
+        <div style="margin-bottom: 25px; border: 2px dashed #8e44ad; background: #fdfafc; padding: 20px; text-align: center; border-radius: 10px;">
+            <label for="file-upload" style="cursor: pointer; color: #8e44ad; font-weight: bold; font-size: 1.1rem;">📂 Click to Choose MRI File</label>
+            <input id="file-upload" type="file" name="file" style="display: block; margin: 15px auto 0;" required>
+        </div>
+        <button type="submit" style="width: 100%; padding: 15px; background: #8e44ad; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; font-weight: bold;">Run Brain Tumor Analysis</button>
+    </form>
+</div>
+{% endblock %}

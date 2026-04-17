@@ -1,0 +1,92 @@
+{
+  "id": "d1de6f60-229f-435e-8d4a-cd754db1d693",
+  "patient": {
+    "name": "Prince Kumar",
+    "age": "18",
+    "gender": "Male",
+    "address": "dfbdf"
+  },
+  "prediction": {
+    "label": "Normal",
+    "probability": 0.0026732299011200666,
+    "confidence": 0.9973267700988799
+  },
+  "tests": [
+    {
+      "test": "Hb%",
+      "value": 12.1,
+      "units": "g/dl",
+      "expected": "14 to 24"
+    },
+    {
+      "test": "WBC",
+      "value": 12100,
+      "units": "mm\u00b3",
+      "expected": "5500 to 18000/cm"
+    },
+    {
+      "test": "Platelet count",
+      "value": 616000,
+      "units": "mm\u00b3",
+      "expected": "150000 to 400000"
+    },
+    {
+      "test": "Neutrophils",
+      "value": 22,
+      "units": "%",
+      "expected": "45 to 75%"
+    },
+    {
+      "test": "Lymphocytes",
+      "value": 70,
+      "units": "%",
+      "expected": "20 to 45%"
+    },
+    {
+      "test": "Eosinophils",
+      "value": 4,
+      "units": "%",
+      "expected": "02 to 06%"
+    },
+    {
+      "test": "Monocytes",
+      "value": 4,
+      "units": "%",
+      "expected": "02 to 10%"
+    },
+    {
+      "test": "RBC",
+      "value": 5.57,
+      "units": "10^12/litre",
+      "expected": "3.5 to 5.5"
+    },
+    {
+      "test": "MCV",
+      "value": 79.2,
+      "units": "F1",
+      "expected": "75 to 100"
+    },
+    {
+      "test": "HCT",
+      "value": 36.2,
+      "units": "%",
+      "expected": "35 to 55"
+    },
+    {
+      "test": "MCH",
+      "value": 26.5,
+      "units": "Pg",
+      "expected": "25 to 35"
+    },
+    {
+      "test": "MCHC",
+      "value": 33.4,
+      "units": "g/dl",
+      "expected": "31 to 38"
+    }
+  ],
+  "paths": {
+    "input_image": "D:/final_year_project/code_X_Elite/aarogyamScanAi\\reports\\cc9f1ef8-214c-4f2f-9c0b-45054149a017_input.png",
+    "gradcam_image": "D:/final_year_project/code_X_Elite/aarogyamScanAi\\reports\\cc9f1ef8-214c-4f2f-9c0b-45054149a017_gradcam.png"
+  }
+}

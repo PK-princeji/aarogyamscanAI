@@ -580,3 +580,66 @@ p {
     }
     
 }
+/* --- 🚀 MULTI-SECTION SLIDER DESIGN --- */
+.vvi-multi-slider {
+    width: 100%;
+    background: #ffffff; /* White background for clean look */
+    border-bottom: 2px solid #e2e8f0;
+    overflow: hidden;
+    padding: 15px 0;
+    display: flex;
+    align-items: center;
+}
+
+.vvi-track {
+    display: flex;
+    width: calc(250px * 9); /* Multi-item width */
+    animation: scroll-left 30s linear infinite;
+}
+
+.vvi-item {
+    width: 280px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 0 30px;
+    border-right: 1px solid #e2e8f0;
+}
+
+.vvi-item i {
+    font-size: 1.8rem;
+    color: #1e3a8a; /* Medical Blue */
+    background: #eff6ff;
+    padding: 10px;
+    border-radius: 12px;
+}
+
+.vvi-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.vvi-text .label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #64748b;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.vvi-text .value {
+    font-size: 1rem;
+    color: #0f172a;
+    font-weight: 800;
+}
+
+/* 🟢 Scrolling Animation */
+@keyframes scroll-left {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-280px * 6)); }
+}
+
+/* Pause on hover to let user read */
+.vvi-multi-slider:hover .vvi-track {
+    animation-play-state: paused;
+}
